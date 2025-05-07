@@ -6,8 +6,6 @@
     <title>Razón, Poder y Vigilancia Digital</title>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
     <style>
         :root {
             --primary: #00f7ff;
@@ -450,7 +448,7 @@
                 <p>La filosofía moderna instauró al yo pensante como primer principio. Descartes: "Pienso, luego existo". Kant desarrolló la idea del sujeto trascendental que organiza la experiencia.</p>
                 
                 <div class="model-container" id="philosophyModel">
-                    <!-- Modelo 3D fijo de evolución del concepto de sujeto -->
+                    <!-- Modelo 3D de evolución del concepto de sujeto -->
                 </div>
                 
                 <p>Hoy, ese sujeto autónomo se ha transformado en un "sujeto calculable", un conjunto de datos medibles. La acción humana en la economía digital se convierte en información explotable.</p>
@@ -494,7 +492,7 @@
                 </div>
                 
                 <div class="model-container" id="kantModel">
-                    <!-- Modelo 3D fijo del concepto kantiano -->
+                    <!-- Modelo 3D del concepto kantiano -->
                 </div>
                 
                 <p>Para Kant, el ser humano no es un mero receptáculo de datos, sino el origen activo de toda organización posible del conocimiento. Sin embargo, en la era digital, el sujeto trascendental kantiano ha sido degradado a objeto de cálculo.</p>
@@ -528,278 +526,321 @@
                 <p>Hemos visto cómo los derechos digitales están en crisis por la tensión entre libertad individual y control institucional. El sujeto autónomo de la modernidad se ha transformado en un sujeto calculable dentro de la economía de datos.</p>
                 
                 <div class="model-container" id="conclusionModel">
-                    <!-- Modelo 3D fijo de conclusión -->
+                    <!-- Modelo 3D de conclusión -->
                 </div>
                 
                 <p>La privacidad digital no es solo un problema técnico, sino filosófico y existencial. En la era de las plataformas, la captura de datos crea "sombras digitales" que modelan nuestra identidad y comportamiento, amenazando la autonomía personal que filósofos como Kant consideraban esencial para la dignidad humana.</p>
                 
-                <p>Frente a esta realidad, necesita mos replantear nuestros conceptos de privacidad, autonomía y libertad en el contexto digital. La crítica de Nietzsche a la razón ilustrada nos alerta sobre cómo los sistemas de poder pueden disfrazarse de racionalidad técnica, mientras que la visión kantiana nos recuerda que el respeto a la persona debe ser el fundamento de cualquier desarrollo tecnológico.</p>
-</div>
-</section>
-</div>
-<footer>
-    <div class="container">
-        <p>© 2023 Razón, Poder y Vigilancia - Filosofía de la Privacidad Digital</p>
+                <p>Frente a esta realidad, necesitamos replantear nuestros conceptos de privacidad, autonomía y libertad en el contexto digital. La crítica de Nietzsche a la razón ilustrada nos alerta sobre cómo los sistemas de poder pueden disfrazarse de racionalidad técnica, mientras que la visión kantiana nos recuerda que el respeto a la persona debe ser el fundamento de cualquier desarrollo tecnológico.</p>
+            </div>
+        </section>
     </div>
-</footer>
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 Razón, Poder y Vigilancia - Filosofía de la Privacidad Digital</p>
+        </div>
+    </footer>
 
-<script>
-    // Configuración de modelos 3D FIJOS (sin rotación)
-    function initFixed3DModel(containerId, modelType) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-        
-        const width = container.clientWidth;
-        const height = container.clientHeight;
-        
-        // Escena
-        const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x0a0a20);
-        
-        // Cámara
-        const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-        camera.position.z = 5;
-        
-        // Renderer
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(width, height);
-        container.appendChild(renderer.domElement);
-        
-        // Luz
-        const light = new THREE.PointLight(0x00f7ff, 1, 100);
-        light.position.set(5, 5, 5);
-        scene.add(light);
-        
-        const ambientLight = new THREE.AmbientLight(0x404040);
-        scene.add(ambientLight);
-        
-        // Objeto 3D según el tipo
-        let object;
-        if (modelType === 'intro') {
-            // Esfera de datos para introducción
-            const geometry = new THREE.SphereGeometry(1.5, 32, 32);
-            const material = new THREE.MeshPhongMaterial({ 
-                color: 0x00f7ff,
-                wireframe: true,
-                transparent: true,
-                opacity: 0.8,
-                shininess: 100
-            });
-            object = new THREE.Mesh(geometry, material);
-        } else if (modelType === 'philosophy') {
-            // Grupo fijo para evolución filosófica
-            const group = new THREE.Group();
+    <script>
+        // Configuración de modelos 3D CON MOVIMIENTO
+        function init3DModel(containerId, modelType) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
             
-            // Cubo cartesiano
-            const cubeGeo = new THREE.BoxGeometry(0.8, 0.8, 0.8);
-            const cubeMat = new THREE.MeshPhongMaterial({ 
-                color: 0xff00aa,
-                wireframe: true
-            });
-            const cube = new THREE.Mesh(cubeGeo, cubeMat);
-            cube.position.x = -2;
-            group.add(cube);
+            const width = container.clientWidth;
+            const height = container.clientHeight;
             
-            // Esfera kantiana
-            const sphereGeo = new THREE.SphereGeometry(0.6, 24, 24);
-            const sphereMat = new THREE.MeshPhongMaterial({
-                color: 0x7b2dff,
-                wireframe: true
-            });
-            const sphere = new THREE.Mesh(sphereGeo, sphereMat);
-            group.add(sphere);
+            // Escena
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0a0a20);
             
-            // Conjunto de partículas para el sujeto digital
-            const particlesGeo = new THREE.BufferGeometry();
-            const particleCount = 500;
-            const posArray = new Float32Array(particleCount * 3);
+            // Cámara
+            const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+            camera.position.z = 5;
             
-            for(let i = 0; i < particleCount * 3; i++) {
-                posArray[i] = (Math.random() - 0.5) * 4;
-            }
+            // Renderer
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(width, height);
+            container.appendChild(renderer.domElement);
             
-            particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-            const particlesMat = new THREE.PointsMaterial({
-                color: 0x00f7ff,
-                size: 0.02,
-                transparent: true,
-                opacity: 0.8
-            });
-            const particles = new THREE.Points(particlesGeo, particlesMat);
-            particles.position.x = 2;
-            group.add(particles);
+            // Controles
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
             
-            object = group;
-        } else if (modelType === 'kant') {
-            // Estructura geométrica fija para Kant
-            const group = new THREE.Group();
+            // Luz
+            const light = new THREE.PointLight(0x00f7ff, 1, 100);
+            light.position.set(5, 5, 5);
+            scene.add(light);
             
-            // Base icosaédrica
-            const icosahedronGeo = new THREE.IcosahedronGeometry(1, 1);
-            const icosahedronMat = new THREE.MeshPhongMaterial({
-                color: 0x7b2dff,
-                wireframe: true,
-                transparent: true,
-                opacity: 0.6
-            });
-            const icosahedron = new THREE.Mesh(icosahedronGeo, icosahedronMat);
-            group.add(icosahedron);
+            const ambientLight = new THREE.AmbientLight(0x404040);
+            scene.add(ambientLight);
             
-            // Esfera interior
-            const innerSphereGeo = new THREE.SphereGeometry(0.7, 24, 24);
-            const innerSphereMat = new THREE.MeshPhongMaterial({
-                color: 0x00f7ff,
-                wireframe: true,
-                transparent: true,
-                opacity: 0.4
-            });
-            const innerSphere = new THREE.Mesh(innerSphereGeo, innerSphereMat);
-            group.add(innerSphere);
-            
-            object = group;
-        } else if (modelType === 'conclusion') {
-            // Estructura de red fija para conclusión
-            const group = new THREE.Group();
-            
-            // Nodos
-            const nodeGeo = new THREE.SphereGeometry(0.1, 16, 16);
-            const nodeMat = new THREE.MeshPhongMaterial({ color: 0x00f7ff });
-            
-            const nodeCount = 20;
-            const positions = [];
-            
-            for (let i = 0; i < nodeCount; i++) {
-                const node = new THREE.Mesh(nodeGeo, nodeMat);
-                const x = (Math.random() - 0.5) * 5;
-                const y = (Math.random() - 0.5) * 5;
-                const z = (Math.random() - 0.5) * 5;
-                node.position.set(x, y, z);
-                group.add(node);
-                positions.push({x, y, z});
-            }
-            
-            // Conexiones
-            const lineMaterial = new THREE.LineBasicMaterial({ 
-                color: 0xff00aa,
-                transparent: true,
-                opacity: 0.5
-            });
-            
-            for (let i = 0; i < positions.length; i++) {
-                for (let j = i + 1; j < positions.length; j++) {
-                    if (Math.random() > 0.7) {
-                        const geometry = new THREE.BufferGeometry();
-                        const vertices = new Float32Array([
-                            positions[i].x, positions[i].y, positions[i].z,
-                            positions[j].x, positions[j].y, positions[j].z
-                        ]);
-                        geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
-                        const line = new THREE.Line(geometry, lineMaterial);
-                        group.add(line);
+            // Objeto 3D según el tipo
+            let object;
+            if (modelType === 'intro') {
+                // Esfera de datos para introducción
+                const geometry = new THREE.SphereGeometry(1.5, 32, 32);
+                const material = new THREE.MeshPhongMaterial({ 
+                    color: 0x00f7ff,
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.8,
+                    shininess: 100
+                });
+                object = new THREE.Mesh(geometry, material);
+            } else if (modelType === 'philosophy') {
+                // Cadena de cubos para evolución filosófica
+                const group = new THREE.Group();
+                
+                // Cubo cartesiano
+                const cubeGeo = new THREE.BoxGeometry(0.8, 0.8, 0.8);
+                const cubeMat = new THREE.MeshPhongMaterial({ 
+                    color: 0xff00aa,
+                    wireframe: true
+                });
+                const cube = new THREE.Mesh(cubeGeo, cubeMat);
+                cube.position.x = -2;
+                group.add(cube);
+                
+                // Esfera kantiana
+                const sphereGeo = new THREE.SphereGeometry(0.6, 24, 24);
+                const sphereMat = new THREE.MeshPhongMaterial({
+                    color: 0x7b2dff,
+                    wireframe: true
+                });
+                const sphere = new THREE.Mesh(sphereGeo, sphereMat);
+                group.add(sphere);
+                
+                // Conjunto de partículas para el sujeto digital
+                const particlesGeo = new THREE.BufferGeometry();
+                const particleCount = 500;
+                const posArray = new Float32Array(particleCount * 3);
+                
+                for(let i = 0; i < particleCount * 3; i++) {
+                    posArray[i] = (Math.random() - 0.5) * 4;
+                }
+                
+                particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+                const particlesMat = new THREE.PointsMaterial({
+                    color: 0x00f7ff,
+                    size: 0.02,
+                    transparent: true,
+                    opacity: 0.8
+                });
+                const particles = new THREE.Points(particlesGeo, particlesMat);
+                particles.position.x = 2;
+                group.add(particles);
+                
+                object = group;
+            } else if (modelType === 'kant') {
+                // Estructura geométrica compleja para Kant
+                const group = new THREE.Group();
+                
+                // Base icosaédrica
+                const icosahedronGeo = new THREE.IcosahedronGeometry(1, 1);
+                const icosahedronMat = new THREE.MeshPhongMaterial({
+                    color: 0x7b2dff,
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.6
+                });
+                const icosahedron = new THREE.Mesh(icosahedronGeo, icosahedronMat);
+                group.add(icosahedron);
+                
+                // Esfera interior
+                const innerSphereGeo = new THREE.SphereGeometry(0.7, 24, 24);
+                const innerSphereMat = new THREE.MeshPhongMaterial({
+                    color: 0x00f7ff,
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.4
+                });
+                const innerSphere = new THREE.Mesh(innerSphereGeo, innerSphereMat);
+                group.add(innerSphere);
+                
+                // Líneas de conexión
+                const lineGeo = new THREE.BufferGeometry();
+                const lineMat = new THREE.LineBasicMaterial({ color: 0xffffff });
+                const linePositions = new Float32Array([
+                    0, 0, 0,  1, 1, 1,
+                    0, 0, 0, -1, -1, 1,
+                    0, 0, 0,  1, -1, -1,
+                    0, 0, 0, -1, 1, -1
+                ]);
+                lineGeo.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+                const lines = new THREE.LineSegments(lineGeo, lineMat);
+                group.add(lines);
+                
+                object = group;
+            } else if (modelType === 'conclusion') {
+                // Estructura de red para conclusión
+                const group = new THREE.Group();
+                
+                // Nodos
+                const nodeGeo = new THREE.SphereGeometry(0.1, 16, 16);
+                const nodeMat = new THREE.MeshPhongMaterial({ color: 0x00f7ff });
+                
+                const nodeCount = 20;
+                const nodes = [];
+                const positions = [];
+                
+                for (let i = 0; i < nodeCount; i++) {
+                    const node = new THREE.Mesh(nodeGeo, nodeMat);
+                    const x = (Math.random() - 0.5) * 5;
+                    const y = (Math.random() - 0.5) * 5;
+                    const z = (Math.random() - 0.5) * 5;
+                    node.position.set(x, y, z);
+                    group.add(node);
+                    nodes.push(node);
+                    positions.push({x, y, z});
+                }
+                
+                // Conexiones
+                const lineMaterial = new THREE.LineBasicMaterial({ 
+                    color: 0xff00aa,
+                    transparent: true,
+                    opacity: 0.5
+                });
+                
+                for (let i = 0; i < positions.length; i++) {
+                    for (let j = i + 1; j < positions.length; j++) {
+                        if (Math.random() > 0.7) {
+                            const geometry = new THREE.BufferGeometry();
+                            const vertices = new Float32Array([
+                                positions[i].x, positions[i].y, positions[i].z,
+                                positions[j].x, positions[j].y, positions[j].z
+                            ]);
+                            geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+                            const line = new THREE.Line(geometry, lineMaterial);
+                            group.add(line);
+                        }
                     }
                 }
+                
+                object = group;
             }
             
-            object = group;
+            scene.add(object);
+            
+            // Animación
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                if (object) {
+                    if (modelType === 'intro') {
+                        object.rotation.x += 0.005;
+                        object.rotation.y += 0.01;
+                    } else if (modelType === 'philosophy') {
+                        object.rotation.y += 0.005;
+                        object.children[0].rotation.x += 0.01;
+                        object.children[1].rotation.y += 0.01;
+                        object.children[2].rotation.z += 0.005;
+                    } else if (modelType === 'kant') {
+                        object.rotation.x += 0.003;
+                        object.rotation.y += 0.007;
+                    } else if (modelType === 'conclusion') {
+                        object.rotation.y += 0.002;
+                    }
+                }
+                
+                controls.update();
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // Redimensionamiento
+            window.addEventListener('resize', function() {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
         }
-        
-        scene.add(object);
-        
-        // Renderizado estático (sin animación)
-        renderer.render(scene, camera);
-        
-        // Redimensionamiento
-        window.addEventListener('resize', function() {
-            camera.aspect = container.clientWidth / container.clientHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            renderer.render(scene, camera);
-        });
-    }
-    
-    // Inicializar modelos 3D fijos cuando el DOM esté listo
-    document.addEventListener('DOMContentLoaded', function() {
-        initFixed3DModel('introModel', 'intro');
-        initFixed3DModel('philosophyModel', 'philosophy');
-        initFixed3DModel('kantModel', 'kant');
-        initFixed3DModel('conclusionModel', 'conclusion');
-        
-        // Configurar interactividad para demostraciones
-        setupInteractiveDemos();
-        
-        // Mostrar datos reales del navegador
-        setupRealDataDemo();
-    });
-    
-    // Configurar demostración de datos reales del navegador
-    function setupRealDataDemo() {
-        const realDataDemo = document.getElementById('realDataDemo');
-        const realDataDesc = document.getElementById('realDataDescription');
-        const cookieCount = document.getElementById('cookieCount');
-        const fingerprintAccuracy = document.getElementById('fingerprintAccuracy');
-        
-        // Contador de cookies simulado (en realidad no accedemos a las cookies por privacidad)
-        cookieCount.textContent = Math.floor(Math.random() * 10) + 3;
-        
-        // Precisión de huella digital
-        const accuracyOptions = ['alto', 'muy alto', 'extremadamente alto'];
-        fingerprintAccuracy.textContent = accuracyOptions[Math.floor(Math.random() * accuracyOptions.length)];
-        
-        document.getElementById('showBrowserData').addEventListener('click', function() {
-            realDataDemo.innerHTML = `
-                <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:90%;">
-                    <h4 style="color:var(--primary); margin-top:0;">Datos de tu navegador</h4>
-                    <ul style="color:var(--light); font-size:0.9em;">
-                        <li>Navegador: ${navigator.userAgent.split(')')[0].split('(')[1]}</li>
-                        <li>Idioma: ${navigator.language}</li>
-                        <li>Resolución de pantalla: ${screen.width}×${screen.height}</li>
-                        <li>Zona horaria: ${Intl.DateTimeFormat().resolvedOptions().timeZone}</li>
-                        <li>Plugins instalados: ${navigator.plugins.length}</li>
-                        <li>Cookies habilitadas: ${navigator.cookieEnabled ? 'Sí' : 'No'}</li>
-                    </ul>
-                </div>
-            `;
-            realDataDesc.textContent = 'Esta información puede ser utilizada para identificar tu navegador entre millones de usuarios.';
+
+        // Inicializar modelos 3D con movimiento cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            init3DModel('introModel', 'intro');
+            init3DModel('philosophyModel', 'philosophy');
+            init3DModel('kantModel', 'kant');
+            init3DModel('conclusionModel', 'conclusion');
+            
+            // Configurar interactividad para demostraciones
+            setupInteractiveDemos();
+            
+            // Mostrar datos reales del navegador
+            setupRealDataDemo();
         });
         
-        document.getElementById('showLocation').addEventListener('click', function() {
-            realDataDemo.innerHTML = `
-                <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:90%; text-align:center;">
-                    <h4 style="color:var(--primary); margin-top:0;">Ubicación estimada</h4>
-                    <p style="color:var(--light);">Basado en tu dirección IP y datos de red:</p>
-                    <div style="margin:15px 0; padding:10px; background:rgba(0,247,255,0.1); border-radius:5px;">
-                        <p style="margin:5px 0;">País: ${guessCountry()}</p>
-                        <p style="margin:5px 0;">Ciudad: ${guessCity()}</p>
-                        <p style="margin:5px 0;">Proveedor de internet: ${guessISP()}</p>
+        // Configurar demostración de datos reales del navegador
+        function setupRealDataDemo() {
+            const realDataDemo = document.getElementById('realDataDemo');
+            const realDataDesc = document.getElementById('realDataDescription');
+            const cookieCount = document.getElementById('cookieCount');
+            const fingerprintAccuracy = document.getElementById('fingerprintAccuracy');
+            
+            // Contador de cookies simulado (en realidad no accedemos a las cookies por privacidad)
+            cookieCount.textContent = Math.floor(Math.random() * 10) + 3;
+            
+            // Precisión de huella digital
+            const accuracyOptions = ['alto', 'muy alto', 'extremadamente alto'];
+            fingerprintAccuracy.textContent = accuracyOptions[Math.floor(Math.random() * accuracyOptions.length)];
+            
+            document.getElementById('showBrowserData').addEventListener('click', function() {
+                realDataDemo.innerHTML = `
+                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:90%;">
+                        <h4 style="color:var(--primary); margin-top:0;">Datos de tu navegador</h4>
+                        <ul style="color:var(--light); font-size:0.9em;">
+                            <li>Navegador: ${navigator.userAgent.split(')')[0].split('(')[1]}</li>
+                            <li>Idioma: ${navigator.language}</li>
+                            <li>Resolución de pantalla: ${screen.width}×${screen.height}</li>
+                            <li>Zona horaria: ${Intl.DateTimeFormat().resolvedOptions().timeZone}</li>
+                            <li>Plugins instalados: ${navigator.plugins.length}</li>
+                            <li>Cookies habilitadas: ${navigator.cookieEnabled ? 'Sí' : 'No'}</li>
+                        </ul>
                     </div>
-                    <p style="font-size:0.8em; color:var(--secondary);">Los servicios pueden determinar tu ubicación con una precisión de hasta 1km</p>
-                </div>
-            `;
-            realDataDesc.textContent = 'Tu ubicación aproximada puede ser determinada incluso sin acceso al GPS.';
-        });
-        
-        document.getElementById('showDeviceInfo').addEventListener('click', function() {
-            realDataDemo.innerHTML = `
-                <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:90%;">
-                    <h4 style="color:var(--primary); margin-top:0;">Información del dispositivo</h4>
-                    <ul style="color:var(--light); font-size:0.9em;">
-                        <li>Sistema operativo: ${getOS()}</li>
-                        <li>Dispositivo: ${isMobile() ? 'Móvil' : 'Escritorio'}</li>
-                        <li>CPU: ${navigator.hardwareConcurrency || 'Desconocido'} núcleos</li>
-                        <li>Memoria RAM: ${Math.pow(2, Math.round(Math.log2(deviceMemory())))} GB</li>
-                        <li>GPU: ${getGPUInfo()}</li>
-                    </ul>
-                </div>
-            `;
-            realDataDesc.textContent = 'Las características únicas de tu dispositivo ayudan a crear una huella digital identificable.';
-        });
-        
-        // Funciones auxiliares para simular datos
-        function guessCountry() {
-            const countries = ['España', 'México', 'Argentina', 'Colombia', 'Estados Unidos', 'Chile'];
-            return countries[Math.floor(Math.random() * countries.length)];
-        }
-        
+                `;
+                realDataDesc.textContent = 'Esta información puede ser utilizada para identificar tu navegador entre millones de usuarios.';
+            });
+            
+            document.getElementById('showLocation').addEventListener('click', function() {
+                realDataDemo.innerHTML = `
+                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:90%; text-align:center;">
+                        <h4 style="color:var(--primary); margin-top:0;">Ubicación estimada</h4>
+                        <p style="color:var(--light);">Basado en tu dirección IP y datos de red:</p>
+                        <div style="margin:15px 0; padding:10px; background:rgba(0,247,255,0.1); border-radius:5px;">
+                            <p style="margin:5px 0;">País: ${guessCountry()}</p>
+                            <p style="margin:5px 0;">Ciudad: ${guessCity()}</p>
+                            <p style="margin:5px 0;">Proveedor de internet: ${guessISP()}</p>
+                        </div>
+                        <p style="font-size:0.8em; color:var(--secondary);">Los servicios pueden determinar tu ubicación con una precisión de hasta 1km</p>
+                    </div>
+                `;
+                realDataDesc.textContent = 'Tu ubicación aproximada puede ser determinada incluso sin acceso al GPS.';
+            });
+            
+            document.getElementById('showDeviceInfo').addEventListener('click', function() {
+                realDataDemo.innerHTML = `
+                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:90%;">
+                        <h4 style="color:var(--primary); margin-top:0;">Información del dispositivo</h4>
+                        <ul style="color:var(--light); font-size:0.9em;">
+                            <li>Sistema operativo: ${getOS()}</li>
+                            <li>Dispositivo: ${isMobile() ? 'Móvil' : 'Escritorio'}</li>
+                            <li>CPU: ${navigator.hardwareConcurrency || 'Desconocido'} núcleos</li>
+                            <li>Memoria RAM: ${Math.pow(2, Math.round(Math.log2(deviceMemory())))} GB</li>
+                            <li>GPU: ${getGPUInfo()}</li>
+                        </ul>
+                    </div>
+                `;
+                realDataDesc.textContent = 'Las características únicas de tu dispositivo ayudan a crear una huella digital identificable.';
+            });
+            
+            //Funciones auxiliares para simular datos
+function guessCountry() {
+const countries = ['España', 'España', 'España', 'España', 'España', 'España'];
+return countries[Math.floor(Math.random() * countries.length)];
+}
         function guessCity() {
             const cities = {
                 'España': ['Madrid', 'Barcelona', 'Valencia', 'Sevilla'],
@@ -1005,229 +1046,4 @@
         });
     }
 </script>
-<script>
-// Configuración de modelos 3D CON MOVIMIENTO
-function init3DModel(containerId, modelType) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    
-    const width = container.clientWidth;
-    const height = container.clientHeight;
-    
-    // Escena
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0a0a20);
-    
-    // Cámara
-    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-    camera.position.z = 5;
-    
-    // Renderer
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(width, height);
-    container.appendChild(renderer.domElement);
-    
-    // Controles
-    const controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    
-    // Luz
-    const light = new THREE.PointLight(0x00f7ff, 1, 100);
-    light.position.set(5, 5, 5);
-    scene.add(light);
-    
-    const ambientLight = new THREE.AmbientLight(0x404040);
-    scene.add(ambientLight);
-    
-    // Objeto 3D según el tipo
-    let object;
-    if (modelType === 'intro') {
-        // Esfera de datos para introducción
-        const geometry = new THREE.SphereGeometry(1.5, 32, 32);
-        const material = new THREE.MeshPhongMaterial({ 
-            color: 0x00f7ff,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.8,
-            shininess: 100
-        });
-        object = new THREE.Mesh(geometry, material);
-    } else if (modelType === 'philosophy') {
-        // Cadena de cubos para evolución filosófica
-        const group = new THREE.Group();
-        
-        // Cubo cartesiano
-        const cubeGeo = new THREE.BoxGeometry(0.8, 0.8, 0.8);
-        const cubeMat = new THREE.MeshPhongMaterial({ 
-            color: 0xff00aa,
-            wireframe: true
-        });
-        const cube = new THREE.Mesh(cubeGeo, cubeMat);
-        cube.position.x = -2;
-        group.add(cube);
-        
-        // Esfera kantiana
-        const sphereGeo = new THREE.SphereGeometry(0.6, 24, 24);
-        const sphereMat = new THREE.MeshPhongMaterial({
-            color: 0x7b2dff,
-            wireframe: true
-        });
-        const sphere = new THREE.Mesh(sphereGeo, sphereMat);
-        group.add(sphere);
-        
-        // Conjunto de partículas para el sujeto digital
-        const particlesGeo = new THREE.BufferGeometry();
-        const particleCount = 500;
-        const posArray = new Float32Array(particleCount * 3);
-        
-        for(let i = 0; i < particleCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 4;
-        }
-        
-        particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        const particlesMat = new THREE.PointsMaterial({
-            color: 0x00f7ff,
-            size: 0.02,
-            transparent: true,
-            opacity: 0.8
-        });
-        const particles = new THREE.Points(particlesGeo, particlesMat);
-        particles.position.x = 2;
-        group.add(particles);
-        
-        object = group;
-    } else if (modelType === 'kant') {
-        // Estructura geométrica compleja para Kant
-        const group = new THREE.Group();
-        
-        // Base icosaédrica
-        const icosahedronGeo = new THREE.IcosahedronGeometry(1, 1);
-        const icosahedronMat = new THREE.MeshPhongMaterial({
-            color: 0x7b2dff,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.6
-        });
-        const icosahedron = new THREE.Mesh(icosahedronGeo, icosahedronMat);
-        group.add(icosahedron);
-        
-        // Esfera interior
-        const innerSphereGeo = new THREE.SphereGeometry(0.7, 24, 24);
-        const innerSphereMat = new THREE.MeshPhongMaterial({
-            color: 0x00f7ff,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.4
-        });
-        const innerSphere = new THREE.Mesh(innerSphereGeo, innerSphereMat);
-        group.add(innerSphere);
-        
-        // Líneas de conexión
-        const lineGeo = new THREE.BufferGeometry();
-        const lineMat = new THREE.LineBasicMaterial({ color: 0xffffff });
-        const linePositions = new Float32Array([
-            0, 0, 0,  1, 1, 1,
-            0, 0, 0, -1, -1, 1,
-            0, 0, 0,  1, -1, -1,
-            0, 0, 0, -1, 1, -1
-        ]);
-        lineGeo.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
-        const lines = new THREE.LineSegments(lineGeo, lineMat);
-        group.add(lines);
-        
-        object = group;
-    } else if (modelType === 'conclusion') {
-        // Estructura de red para conclusión
-        const group = new THREE.Group();
-        
-        // Nodos
-        const nodeGeo = new THREE.SphereGeometry(0.1, 16, 16);
-        const nodeMat = new THREE.MeshPhongMaterial({ color: 0x00f7ff });
-        
-        const nodeCount = 20;
-        const nodes = [];
-        const positions = [];
-        
-        for (let i = 0; i < nodeCount; i++) {
-            const node = new THREE.Mesh(nodeGeo, nodeMat);
-            const x = (Math.random() - 0.5) * 5;
-            const y = (Math.random() - 0.5) * 5;
-            const z = (Math.random() - 0.5) * 5;
-            node.position.set(x, y, z);
-            group.add(node);
-            nodes.push(node);
-            positions.push({x, y, z});
-        }
-        
-        // Conexiones
-        const lineMaterial = new THREE.LineBasicMaterial({ 
-            color: 0xff00aa,
-            transparent: true,
-            opacity: 0.5
-        });
-        
-        for (let i = 0; i < positions.length; i++) {
-            for (let j = i + 1; j < positions.length; j++) {
-                if (Math.random() > 0.7) {
-                    const geometry = new THREE.BufferGeometry();
-                    const vertices = new Float32Array([
-                        positions[i].x, positions[i].y, positions[i].z,
-                        positions[j].x, positions[j].y, positions[j].z
-                    ]);
-                    geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
-                    const line = new THREE.Line(geometry, lineMaterial);
-                    group.add(line);
-                }
-            }
-        }
-        
-        object = group;
-    }
-    
-    scene.add(object);
-    
-    // Animación
-    function animate() {
-        requestAnimationFrame(animate);
-        
-        if (object) {
-            if (modelType === 'intro') {
-                object.rotation.x += 0.005;
-                object.rotation.y += 0.01;
-            } else if (modelType === 'philosophy') {
-                object.rotation.y += 0.005;
-                object.children[0].rotation.x += 0.01;
-                object.children[1].rotation.y += 0.01;
-                object.children[2].rotation.z += 0.005;
-            } else if (modelType === 'kant') {
-                object.rotation.x += 0.003;
-                object.rotation.y += 0.007;
-            } else if (modelType === 'conclusion') {
-                object.rotation.y += 0.002;
-            }
-        }
-        
-        controls.update();
-        renderer.render(scene, camera);
-    }
-    
-    animate();
-    
-    // Redimensionamiento
-    window.addEventListener('resize', function() {
-        camera.aspect = container.clientWidth / container.clientHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(container.clientWidth, container.clientHeight);
-    });
-}
-
-// Inicializar modelos 3D con movimiento cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', function() {
-    init3DModel('introModel', 'intro');
-    init3DModel('philosophyModel', 'philosophy');
-    init3DModel('kantModel', 'kant');
-    init3DModel('conclusionModel', 'conclusion');
-});
-</script>
-</body> </html>
+    </body> </html>
