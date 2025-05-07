@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis Completo - Razón, Poder y Vigilancia</title>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        :root {
+            --primary: #00f7ff;
+            --secondary: #ff00aa;
+            --dark: #0a0a20;
+            --light: #e0e0ff;
+            --accent: #7b2dff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, var(--dark), #1a1a3a);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(90deg, rgba(0,0,0,0.7), rgba(0,0,0,0.3));
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 3px solid var(--primary);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, var(--primary), transparent 70%),
+                radial-gradient(circle at 80% 70%, var(--secondary), transparent 70%);
+            opacity: 0.3;
+            z-index: -1;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin: 0;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 10px;
+            margin-top: 40px;
+            text-shadow: 0 0 5px rgba(0, 247, 255, 0.3);
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            margin-top: 30px;
+        }
+        
+        .content-box {
+            background: rgba(10, 10, 30, 0.7);
+            border: 1px solid var(--accent);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 20px rgba(123, 45, 255, 0.2);
+            backdrop-filter: blur(5px);
+        }
+        
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .model-container {
+            width: 100%;
+            height: 400px;
+            margin: 30px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 30px rgba(123, 45, 255, 0.3);
+        }
+        
+        .symbol-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .symbol-card {
+            background: rgba(10, 10, 40, 0.5);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid var(--primary);
+            transition: transform 0.3s;
+        }
+        
+        .symbol-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .symbol-card h3 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 3px solid var(--secondary);
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #b8b8ff;
+        }
+        
+        .author {
+            text-align: right;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .back-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+            color: var(--dark);
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(123, 45, 255, 0.5);
+            margin: 20px 0;
+            text-decoration: none;
+        }
+        
+        .back-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(123, 45, 255, 0.8);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .symbol-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Análisis Profundo</h1>
+            <p>Exploración filosófica de la vigilancia digital y el sujeto moderno</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section>
+            <h2>Símbolos Clave de la Vigilancia Digital</h2>
+            
+            <div class="symbol-grid">
+                <div class="symbol-card">
+                    <h3>👁️ El Ojo Digital</h3>
+                    <div class="model-container" id="eyeModel">
+                        <!-- Modelo 3D del ojo de vigilancia -->
+                    </div>
+                    <p>Representa la vigilancia constante y omnipresente en la era digital. Este símbolo encarna la mirada incesante de los sistemas de control, desde cámaras de seguridad hasta algoritmos que rastrean nuestra actividad en línea.</p>
+                    <div class="quote">
+                        <p>"Bajo el ojo digital, cada clic, cada movimiento, cada preferencia es registrada, catalogada y analizada."</p>
+                        <div class="author">Shoshana Zuboff</div>
+                    </div>
+                </div>
+                
+                <div class="symbol-card">
+                    <h3>🧠 Cerebro con Circuitos</h3>
+                    <div class="model-container" id="brainModel">
+                        <!-- Modelo 3D del cerebro digital -->
+                    </div>
+                    <p>Simboliza la intersección entre mente humana y tecnología. Representa cómo los sistemas de vigilancia no solo monitorean acciones, sino que buscan predecir y potencialmente influir en nuestros pensamientos y decisiones.</p>
+                    <div class="quote">
+                        <p>"El capitalismo de vigilancia no quiere solo observar nuestro comportamiento, quiere modelarlo."</p>
+                        <div class="author">Evgeny Morozov</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Análisis Filosófico Profundo</h2>
+            <div class="content-box">
+                <h3>De la Vigilancia Panóptica al Datóptico</h3>
+                <p>El concepto foucaultiano del panóptico ha evolucionado en la era digital. Mientras el panóptico tradicional requería una arquitectura específica para la vigilancia, el datóptico contemporáneo se construye con algoritmos y flujos de datos.</p>
+                
+                <div class="model-container" id="panopticonModel">
+                    <!-- Modelo 3D del datóptico -->
+                </div>
+                
+                <p>Esta nueva forma de vigilancia es más insidiosa porque:</p>
+                <ul>
+                    <li>Es invisible - no requiere torres ni cárceles físicas</li>
+                    <li>Es voluntaria - entregamos nuestros datos a cambio de servicios</li>
+                    <li>Es predictiva - anticipa comportamientos antes de que ocurran</li>
+                    <li>Es personalizada - cada individuo experimenta un sistema de vigilancia único</li>
+                </ul>
+            </div>
+            
+            <div class="content-box">
+                <h3>La Mercantilización de la Subjetividad</h3>
+                <p>Nuestros patrones de pensamiento, preferencias y comportamientos se han convertido en materias primas valiosas. Las plataformas digitales:</p>
+                <ul>
+                    <li>Extraen datos de nuestra actividad consciente e inconsciente</li>
+                    <li>Procesan esta información para crear modelos predictivos</li>
+                    <li>Venden acceso a estos modelos a anunciantes y otros actores</li>
+                    <li>Optimizan sus interfaces para extraer cada vez más datos</li>
+                </ul>
+                <p>Este proceso transforma la subjetividad humana en un producto comercializable, cuestionando los fundamentos mismos de la autonomía personal.</p>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Perspectivas Filosóficas</h2>
+            <div class="content-box">
+                <h3>Kant en la Era Digital</h3>
+                <p>La noción kantiana de autonomía moral se ve desafiada por sistemas que pueden predecir y potencialmente manipular nuestras decisiones. Si un algoritmo conoce nuestros patrones de decisión mejor que nosotros mismos, ¿dónde queda el espacio para la razón autónoma?</p>
+                <div class="quote">
+                    <p>"El sujeto trascendental kantiano se enfrenta hoy a su mayor desafío: sistemas técnicos que pretenden conocerlo mejor que él se conoce a sí mismo."</p>
+                    <div class="author">Byung-Chul Han</div>
+                </div>
+            </div>
+            
+            <div class="content-box">
+                <h3>Nietzsche y la Voluntad de Poder Digital</h3>
+                <p>La crítica nietzscheana a la razón encuentra nuevo terreno en la era algorítmica. Las plataformas digitales ejercen una "voluntad de poder" a través de:</p>
+                <ul>
+                    <li>La configuración de interfaces que guían nuestro comportamiento</li>
+                    <li>La creación de sistemas de recompensa variable que generan adicción</li>
+                    <li>La normalización de ciertos patrones de pensamiento y acción</li>
+                </ul>
+                <p>Esto plantea la pregunta: ¿son los algoritmos la máxima expresión de la voluntad de poder en el siglo XXI?</p>
+            </div>
+        </section>
+        
+        <a href="index.html" class="back-button">Volver al Inicio</a>
+    </div>
+
+    <script>
+        // Configuración de modelos 3D
+        function initEyeModel() {
+            const container = document.getElementById('eyeModel');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            
+            // Escena
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0a0a20);
+            
+            // Cámara
+            const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+            camera.position.z = 5;
+            
+            // Renderer
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(width, height);
+            container.appendChild(renderer.domElement);
+            
+            // Controles
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            
+            // Luz
+            const light = new THREE.PointLight(0xffffff, 1, 100);
+            light.position.set(5, 5, 5);
+            scene.add(light);
+            
+            const ambientLight = new THREE.AmbientLight(0x404040);
+            scene.add(ambientLight);
+            
+            // Objeto 3D - Ojo digital
+            const group = new THREE.Group();
+            
+            // Esfera del ojo
+            const eyeGeometry = new THREE.SphereGeometry(1.5, 32, 32);
+            const eyeMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0x00f7ff,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.7
+            });
+            const eye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+            group.add(eye);
+            
+            // Iris/pupila
+            const irisGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+            const irisMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0x7b2dff,
+                emissive: 0xff00aa,
+                emissiveIntensity: 0.5
+            });
+            const iris = new THREE.Mesh(irisGeometry, irisMaterial);
+            iris.position.z = 1.5;
+            group.add(iris);
+            
+            // Líneas de conexión (como cables)
+            const lineGeometry = new THREE.BufferGeometry();
+            const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00f7ff });
+            
+            for(let i = 0; i < 8; i++) {
+                const angle = (i / 8) * Math.PI * 2;
+                const x = Math.cos(angle) * 2;
+                const y = Math.sin(angle) * 2;
+                
+                const positions = new Float32Array([
+                    0, 0, 0, x, y, -3
+                ]);
+                lineGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                const line = new THREE.Line(lineGeometry, lineMaterial);
+                group.add(line);
+            }
+            
+            scene.add(group);
+            
+            // Animación
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                group.rotation.y += 0.005;
+                iris.rotation.x += 0.01;
+                
+                controls.update();
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // Redimensionamiento
+            window.addEventListener('resize', function() {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        }
+        
+        function initBrainModel() {
+            const container = document.getElementById('brainModel');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            
+            // Escena
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0a0a20);
+            
+            // Cámara
+            const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+            camera.position.z = 5;
+            
+            // Renderer
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(width, height);
+            container.appendChild(renderer.domElement);
+            
+            // Controles
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            
+            // Luz
+            const light = new THREE.PointLight(0xffffff, 1, 100);
+            light.position.set(5, 5, 5);
+            scene.add(light);
+            
+            const ambientLight = new THREE.AmbientLight(0x404040);
+            scene.add(ambientLight);
+            
+            // Objeto 3D - Cerebro con circuitos
+            const group = new THREE.Group();
+            
+            // Cerebro (forma simplificada)
+            const brainGeometry = new THREE.SphereGeometry(1.3, 32, 32);
+            brainGeometry.scale(0.8, 1.2, 0.7);
+            const brainMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0xff00aa,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.6
+            });
+            const brain = new THREE.Mesh(brainGeometry, brainMaterial);
+            group.add(brain);
+            
+            // Circuitos (partículas)
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 500;
+            const posArray = new Float32Array(particlesCount * 3);
+            
+            for(let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 3;
+            }
+            
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            const particlesMaterial = new THREE.PointsMaterial({
+                color: 0x00f7ff,
+                size: 0.05,
+                transparent: true,
+                opacity: 0.8
+            });
+            const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+            group.add(particles);
+            
+            // Conexiones neuronales
+            const connectionsGeometry = new THREE.BufferGeometry();
+            const connectionsMaterial = new THREE.LineBasicMaterial({ 
+                color: 0x7b2dff,
+                transparent: true,
+                opacity: 0.5
+            });
+            
+            const connectionsPositions = new Float32Array(particlesCount * 3 * 2);
+            for(let i = 0; i < particlesCount; i++) {
+                const i3 = i * 3;
+                const j = Math.floor(Math.random() * particlesCount);
+                const j3 = j * 3;
+                
+                if(Math.random() > 0.7) {
+                    connectionsPositions[i3 * 2] = posArray[i3];
+                    connectionsPositions[i3 * 2 + 1] = posArray[i3 + 1];
+                    connectionsPositions[i3 * 2 + 2] = posArray[i3 + 2];
+                    
+                    connectionsPositions[i3 * 2 + 3] = posArray[j3];
+                    connectionsPositions[i3 * 2 + 4] = posArray[j3 + 1];
+                    connectionsPositions[i3 * 2 + 5] = posArray[j3 + 2];
+                }
+            }
+            
+            connectionsGeometry.setAttribute('position', new THREE.BufferAttribute(connectionsPositions, 3));
+            const connections = new THREE.LineSegments(connectionsGeometry, connectionsMaterial);
+            group.add(connections);
+            
+            scene.add(group);
+            
+            // Animación
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                group.rotation.y += 0.003;
+                brain.rotation.x += 0.005;
+                particles.rotation.z += 0.002;
+                
+                controls.update();
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // Redimensionamiento
+            window.addEventListener('resize', function() {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        }
+        
+        function initPanopticonModel() {
+            const container = document.getElementById('panopticonModel');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            
+            // Escena
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0a0a20);
+            
+            // Cámara
+            const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+            camera.position.z = 10;
+            
+            // Renderer
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(width, height);
+            container.appendChild(renderer.domElement);
+            
+            // Controles
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            
+            // Luz
+            const light = new THREE.PointLight(0xffffff, 1, 100);
+            light.position.set(5, 5, 5);
+            scene.add(light);
+            
+            const ambientLight = new THREE.AmbientLight(0x404040);
+            scene.add(ambientLight);
+            
+            // Objeto 3D - Datóptico moderno
+            const group = new THREE.Group();
+            
+            // Torre central (servidores)
+            const towerGeometry = new THREE.CylinderGeometry(0.5, 0.3, 3, 6);
+            const towerMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0x7b2dff,
+                wireframe: true
+            });
+            const tower = new THREE.Mesh(towerGeometry, towerMaterial);
+            group.add(tower);
+            
+            // Esfera de datos (nube)
+            const cloudGeometry = new THREE.SphereGeometry(2, 16, 16);
+            const cloudMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0x00f7ff,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.3
+            });
+            const cloud = new THREE.Mesh(cloudGeometry, cloudMaterial);
+            cloud.position.y = 1;
+            group.add(cloud);
+            
+            // Líneas de datos
+            const linesGeometry = new THREE.BufferGeometry();
+            const linesMaterial = new THREE.LineBasicMaterial({ color: 0xff00aa });
+            
+            const linesPositions = new Float32Array(24 * 3 * 2);
+            for(let i = 0; i < 24; i++) {
+                const angle = (i / 24) * Math.PI * 2;
+                const x = Math.cos(angle) * 3;
+                const z = Math.sin(angle) * 3;
+                
+                linesPositions[i * 6] = x;
+                linesPositions[i * 6 + 1] = -1;
+                linesPositions[i * 6 + 2] = z;
+                
+                linesPositions[i * 6 + 3] = 0;
+                linesPositions[i * 6 + 4] = 1.5;
+                linesPositions[i * 6 + 5] = 0;
+            }
+            
+            linesGeometry.setAttribute('position', new THREE.BufferAttribute(linesPositions, 3));
+            const lines = new THREE.LineSegments(linesGeometry, linesMaterial);
+            group.add(lines);
+            
+            // Partículas de datos
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 300;
+            const particlesPositions = new Float32Array(particlesCount * 3);
+            
+            for(let i = 0; i < particlesCount * 3; i++) {
+                particlesPositions[i] = (Math.random() - 0.5) * 5;
+            }
+            
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(particlesPositions, 3));
+            const particlesMaterial = new THREE.PointsMaterial({
+                color: 0xffffff,
+                size: 0.05,
+                transparent: true,
+                opacity: 0.8
+            });
+            const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+            group.add(particles);
+            
+            scene.add(group);
+            
+            // Animación
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                group.rotation.y += 0.002;
+                cloud.rotation.x += 0.001;
+                particles.rotation.z += 0.001;
+                
+                // Mover partículas
+                const positions = particlesGeometry.attributes.position.array;
+                for(let i = 0; i < particlesCount; i++) {
+                    positions[i * 3] += (Math.random() - 0.5) * 0.02;
+                    positions[i * 3 + 1] += (Math.random() - 0.5) * 0.02;
+                    positions[i * 3 + 2] += (Math.random() - 0.5) * 0.02;
+                    
+                    // Mantener las partículas dentro de un rango
+                    if(positions[i * 3] > 3) positions[i * 3] = -3;
+                    if(positions[i * 3] < -3) positions[i * 3] = 3;
+                    if(positions[i * 3 + 1] > 3) positions[i * 3 + 1] = -3;
+                    if(positions[i * 3 + 1] < -3) positions[i * 3 + 1] = 3;
+                    if(positions[i * 3 + 2] > 3) positions[i * 3 + 2] = -3;
+                    if(positions[i * 3 + 2] < -3) positions[i * 3 + 2] = 3;
+                }
+                particlesGeometry.attributes.position.needsUpdate = true;
+                
+                controls.update();
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // Redimensionamiento
+            window.addEventListener('resize', function() {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        }
+        
+        // Inicializar modelos cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            initEyeModel();
+            initBrainModel();
+            initPanopticonModel();
+        });
+    </script>
+</body>
+</html>
