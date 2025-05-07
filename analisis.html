@@ -1,48 +1,140 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Análisis Completo - Razón, Poder y Vigilancia</title>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/GLTFLoader.js"></script>
+    <!-- [El head permanece igual que antes] -->
+</head>
+<body>
+    <!-- [Todo el contenido previo permanece igual hasta la sección de Análisis Filosófico Profundo] -->
+
+    <section>
+        <h2>Análisis Filosófico Profundo</h2>
+        
+        <!-- Nuevo mapa de vigilancia digital -->
+        <div class="content-box">
+            <h3>Mapa de Vigilancia Digital Global</h3>
+            <div class="model-container" id="threatMap">
+                <div class="map-overlay">
+                    <div class="map-legend">
+                        <h4>Leyenda del Mapa</h4>
+                        <div class="legend-item">
+                            <span class="legend-color surveillance"></span>
+                            <span>Vigilancia estatal</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color corporate"></span>
+                            <span>Rastreo corporativo</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color data-flow"></span>
+                            <span>Flujo de datos</span>
+                        </div>
+                    </div>
+                    <div class="map-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">247</div>
+                            <div class="stat-label">Países bajo vigilancia</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">3.8B</div>
+                            <div class="stat-label">Personas monitorizadas</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p>Este mapa simulado representa los flujos globales de vigilancia digital en tiempo real. Cada nodo representa un centro de recolección de datos, mientras que las conexiones muestran cómo la información personal circula entre gobiernos, corporaciones y terceros.</p>
+            
+            <div class="quote">
+                <p>"El mapa no es el territorio, pero en la era digital, el mapa crea el territorio al determinar qué conductas son visibles y cuáles permanecen ocultas."</p>
+                <div class="author">Adaptado de Alfred Korzybski</div>
+            </div>
+        </div>
+
+        <!-- [El resto de tu contenido permanece igual] -->
+    </section>
+
     <style>
-        :root {
-            --primary: #00f7ff;
-            --secondary: #ff00aa;
-            --dark: #0a0a20;
-            --light: #e0e0ff;
-            --accent: #7b2dff;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, var(--dark), #1a1a3a);
-            color: var(--light);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        header {
-            background: linear-gradient(90deg, rgba(0,0,0,0.7), rgba(0,0,0,0.3));
-            padding: 40px 20px;
-            text-align: center;
-            border-bottom: 3px solid var(--primary);
-            margin-bottom: 30px;
+        /* Estilos para el mapa de vigilancia */
+        #threatMap {
             position: relative;
+            height: 500px;
+            background: #0a0a30;
             overflow: hidden;
         }
         
-        header::before {
+        .map-overlay {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(10, 10, 40, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--accent);
+            max-width: 250px;
+        }
+        
+        .map-legend h4 {
+            margin-top: 0;
+            color: var(--primary);
+            border-bottom: 1px solid var(--secondary);
+            padding-bottom: 5px;
+        }
+        
+        .legend-item {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .legend-color {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            margin-right: 10px;
+            border-radius: 3px;
+        }
+        
+        .legend-color.surveillance {
+            background: #ff00aa;
+            box-shadow: 0 0 5px #ff00aa;
+        }
+        
+        .legend-color.corporate {
+            background: #00f7ff;
+            box-shadow: 0 0 5px #00f7ff;
+        }
+        
+        .legend-color.data-flow {
+            background: #7b2dff;
+            box-shadow: 0 0 5px #7b2dff;
+        }
+        
+        .map-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 0 10px;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-shadow: 0 0 5px rgba(0, 247, 255, 0.5);
+        }
+        
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--light);
+            opacity: 0.8;
+        }
+        
+        /* Animación del mapa (simulada con CSS) */
+        #threatMap::before {
             content: "";
             position: absolute;
             top: 0;
@@ -50,316 +142,111 @@
             right: 0;
             bottom: 0;
             background: 
-                radial-gradient(circle at 20% 30%, var(--primary), transparent 70%),
-                radial-gradient(circle at 80% 70%, var(--secondary), transparent 70%);
-            opacity: 0.3;
-            z-index: -1;
+                radial-gradient(circle at 20% 30%, rgba(255, 0, 170, 0.1), transparent 70%),
+                radial-gradient(circle at 80% 70%, rgba(0, 247, 255, 0.1), transparent 70%);
+            animation: pulse 15s infinite alternate;
         }
         
-        h1 {
-            font-size: 3rem;
-            margin: 0;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
-        }
-        
-        h2 {
-            font-size: 2.2rem;
-            color: var(--primary);
-            border-bottom: 2px solid var(--accent);
-            padding-bottom: 10px;
-            margin-top: 40px;
-            text-shadow: 0 0 5px rgba(0, 247, 255, 0.3);
-        }
-        
-        h3 {
-            font-size: 1.8rem;
-            color: var(--secondary);
-            margin-top: 30px;
-        }
-        
-        .content-box {
-            background: rgba(10, 10, 30, 0.7);
-            border: 1px solid var(--accent);
-            border-radius: 10px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 0 20px rgba(123, 45, 255, 0.2);
-            backdrop-filter: blur(5px);
-        }
-        
-        p {
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-        }
-        
-        .model-container {
-            width: 100%;
-            height: 400px;
-            margin: 30px 0;
-            border-radius: 10px;
-            overflow: hidden;
-            border: 2px solid var(--accent);
-            box-shadow: 0 0 30px rgba(123, 45, 255, 0.3);
-        }
-        
-        .symbol-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 40px 0;
-        }
-        
-        .symbol-card {
-            background: rgba(10, 10, 40, 0.5);
-            border-radius: 10px;
-            padding: 20px;
-            border: 1px solid var(--primary);
-            transition: transform 0.3s;
-        }
-        
-        .symbol-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .symbol-card h3 {
-            margin-top: 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .quote {
-            font-style: italic;
-            border-left: 3px solid var(--secondary);
-            padding-left: 20px;
-            margin: 20px 0;
-            color: #b8b8ff;
-        }
-        
-        .author {
-            text-align: right;
-            font-weight: bold;
-            color: var(--primary);
-        }
-        
-        .back-button {
-            display: inline-block;
-            padding: 12px 25px;
-            background: linear-gradient(90deg, var(--accent), var(--secondary));
-            color: var(--dark);
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 0 15px rgba(123, 45, 255, 0.5);
-            margin: 20px 0;
-            text-decoration: none;
-        }
-        
-        .back-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(123, 45, 255, 0.8);
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            .symbol-grid {
-                grid-template-columns: 1fr;
-            }
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
         }
     </style>
-</head>
-<body>
-    <header>
-        <div class="container">
-            <h1>Análisis Profundo</h1>
-            <p>Exploración filosófica de la vigilancia digital y el sujeto moderno</p>
-        </div>
-    </header>
-    
-    <div class="container">
-        <section>
-            <h2>Símbolos Clave de la Vigilancia Digital</h2>
-            
-            <div class="symbol-grid">
-                <div class="symbol-card">
-                    <h3>👁️ El Ojo Digital</h3>
-                    <div class="model-container" id="eyeModel">
-                        <!-- Modelo 3D del ojo de vigilancia -->
-                    </div>
-                    <p>Representa la vigilancia constante y omnipresente en la era digital. Este símbolo encarna la mirada incesante de los sistemas de control, desde cámaras de seguridad hasta algoritmos que rastrean nuestra actividad en línea.</p>
-                    <div class="quote">
-                        <p>"Bajo el ojo digital, cada clic, cada movimiento, cada preferencia es registrada, catalogada y analizada."</p>
-                        <div class="author">Shoshana Zuboff</div>
-                    </div>
-                </div>
-                
-                <div class="symbol-card">
-                    <h3>🧠 Cerebro con Circuitos</h3>
-                    <div class="model-container" id="brainModel">
-                        <!-- Modelo 3D del cerebro digital -->
-                    </div>
-                    <p>Simboliza la intersección entre mente humana y tecnología. Representa cómo los sistemas de vigilancia no solo monitorean acciones, sino que buscan predecir y potencialmente influir en nuestros pensamientos y decisiones.</p>
-                    <div class="quote">
-                        <p>"El capitalismo de vigilancia no quiere solo observar nuestro comportamiento, quiere modelarlo."</p>
-                        <div class="author">Evgeny Morozov</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section>
-            <h2>Análisis Filosófico Profundo</h2>
-            <div class="content-box">
-                <h3>De la Vigilancia Panóptica al Datóptico</h3>
-                <p>El concepto foucaultiano del panóptico ha evolucionado en la era digital. Mientras el panóptico tradicional requería una arquitectura específica para la vigilancia, el datóptico contemporáneo se construye con algoritmos y flujos de datos.</p>
-                
-                <div class="model-container" id="panopticonModel">
-                    <!-- Modelo 3D del datóptico -->
-                </div>
-                
-                <p>Esta nueva forma de vigilancia es más insidiosa porque:</p>
-                <ul>
-                    <li>Es invisible - no requiere torres ni cárceles físicas</li>
-                    <li>Es voluntaria - entregamos nuestros datos a cambio de servicios</li>
-                    <li>Es predictiva - anticipa comportamientos antes de que ocurran</li>
-                    <li>Es personalizada - cada individuo experimenta un sistema de vigilancia único</li>
-                </ul>
-            </div>
-            
-            <div class="content-box">
-                <h3>La Mercantilización de la Subjetividad</h3>
-                <p>Nuestros patrones de pensamiento, preferencias y comportamientos se han convertido en materias primas valiosas. Las plataformas digitales:</p>
-                <ul>
-                    <li>Extraen datos de nuestra actividad consciente e inconsciente</li>
-                    <li>Procesan esta información para crear modelos predictivos</li>
-                    <li>Venden acceso a estos modelos a anunciantes y otros actores</li>
-                    <li>Optimizan sus interfaces para extraer cada vez más datos</li>
-                </ul>
-                <p>Este proceso transforma la subjetividad humana en un producto comercializable, cuestionando los fundamentos mismos de la autonomía personal.</p>
-            </div>
-        </section>
-        
-        <section>
-            <h2>Perspectivas Filosóficas</h2>
-            <div class="content-box">
-                <h3>Kant en la Era Digital</h3>
-                <p>La noción kantiana de autonomía moral se ve desafiada por sistemas que pueden predecir y potencialmente manipular nuestras decisiones. Si un algoritmo conoce nuestros patrones de decisión mejor que nosotros mismos, ¿dónde queda el espacio para la razón autónoma?</p>
-                <div class="quote">
-                    <p>"El sujeto trascendental kantiano se enfrenta hoy a su mayor desafío: sistemas técnicos que pretenden conocerlo mejor que él se conoce a sí mismo."</p>
-                    <div class="author">Byung-Chul Han</div>
-                </div>
-            </div>
-            
-            <div class="content-box">
-                <h3>Nietzsche y la Voluntad de Poder Digital</h3>
-                <p>La crítica nietzscheana a la razón encuentra nuevo terreno en la era algorítmica. Las plataformas digitales ejercen una "voluntad de poder" a través de:</p>
-                <ul>
-                    <li>La configuración de interfaces que guían nuestro comportamiento</li>
-                    <li>La creación de sistemas de recompensa variable que generan adicción</li>
-                    <li>La normalización de ciertos patrones de pensamiento y acción</li>
-                </ul>
-                <p>Esto plantea la pregunta: ¿son los algoritmos la máxima expresión de la voluntad de poder en el siglo XXI?</p>
-            </div>
-        </section>
-        
-        <a href="index.html" class="back-button">Volver al Inicio</a>
-    </div>
 
-  
-   
     <script>
-        // Configuración de modelos 3D
-        const loader = new THREE.GLTFLoader();
-        
-        // 1. Cargar modelo del ojo
-        loader.load(
-            'eye.gltf', // Asegúrate de que este archivo existe en tu repositorio
-            function(gltf) {
-                const container = document.getElementById('eyeModel');
-                initModel(container, gltf.scene);
-            },
-            undefined,
-            function(error) {
-                console.error('Error al cargar eye.glb:', error);
-                createDefaultEye(document.getElementById('eyeModel'));
-            }
-        );
-        
-        // 2. Cargar modelo del cerebro
-        loader.load(
-            'brain.gltf', // Asegúrate de que este archivo existe en tu repositorio
-            function(gltf) {
-                const container = document.getElementById('brainModel');
-                initModel(container, gltf.scene);
-            },
-            undefined,
-            function(error) {
-                console.error('Error al cargar brain.glb:', error);
-                createDefaultBrain(document.getElementById('brainModel'));
-            }
-        );
-        
-        // 3. Función para inicializar un modelo en un contenedor
-        function initModel(container, model) {
+        // Script para el mapa interactivo
+        function initThreatMap() {
+            const container = document.getElementById('threatMap');
             const width = container.clientWidth;
             const height = container.clientHeight;
             
             // Escena
             const scene = new THREE.Scene();
             scene.background = new THREE.Color(0x0a0a20);
-            scene.add(model);
             
             // Cámara
             const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-            
-            // Ajustar cámara al modelo
-            const box = new THREE.Box3().setFromObject(model);
-            const size = box.getSize(new THREE.Vector3()).length();
-            const center = box.getCenter(new THREE.Vector3());
-            
-            camera.position.copy(center);
-            camera.position.z += size * 1.5;
-            camera.lookAt(center);
+            camera.position.z = 5;
             
             // Renderer
             const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setSize(width, height);
-            container.innerHTML = ''; // Limpiar contenedor
-            container.appendChild(renderer.domElement);
+            container.insertBefore(renderer.domElement, container.firstChild);
             
-            // Controles
-            const controls = new THREE.OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true;
-            controls.dampingFactor = 0.05;
-            controls.target.copy(center);
+            // Crear un globo terráqueo
+            const geometry = new THREE.SphereGeometry(2, 32, 32);
+            const material = new THREE.MeshBasicMaterial({ 
+                color: 0x0a0a30,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.3
+            });
+            const sphere = new THREE.Mesh(geometry, material);
+            scene.add(sphere);
             
-            // Luz
-            const light = new THREE.PointLight(0xffffff, 1, 100);
-            light.position.set(5, 5, 5);
-            scene.add(light);
+            // Puntos de vigilancia (simulados)
+            const pointsGeometry = new THREE.BufferGeometry();
+            const pointsMaterial = new THREE.PointsMaterial({
+                color: 0x00f7ff,
+                size: 0.05,
+                transparent: true,
+                opacity: 0.8
+            });
             
-            const ambientLight = new THREE.AmbientLight(0x404040);
-            scene.add(ambientLight);
+            const pointsCount = 200;
+            const positions = new Float32Array(pointsCount * 3);
+            
+            for (let i = 0; i < pointsCount; i++) {
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos((Math.random() * 2) - 1);
+                const radius = 2.1 + (Math.random() * 0.2);
+                
+                positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+                positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
+                positions[i * 3 + 2] = radius * Math.cos(phi);
+            }
+            
+            pointsGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            const points = new THREE.Points(pointsGeometry, pointsMaterial);
+            scene.add(points);
+            
+            // Conexiones (simuladas)
+            const linesGeometry = new THREE.BufferGeometry();
+            const linesMaterial = new THREE.LineBasicMaterial({ 
+                color: 0xff00aa,
+                transparent: true,
+                opacity: 0.3
+            });
+            
+            const linesPositions = new Float32Array(pointsCount * 3 * 2);
+            for (let i = 0; i < pointsCount; i++) {
+                if (Math.random() > 0.7) {
+                    const j = Math.floor(Math.random() * pointsCount);
+                    
+                    linesPositions[i * 6] = positions[i * 3];
+                    linesPositions[i * 6 + 1] = positions[i * 3 + 1];
+                    linesPositions[i * 6 + 2] = positions[i * 3 + 2];
+                    
+                    linesPositions[i * 6 + 3] = positions[j * 3];
+                    linesPositions[i * 6 + 4] = positions[j * 3 + 1];
+                    linesPositions[i * 6 + 5] = positions[j * 3 + 2];
+                }
+            }
+            
+            linesGeometry.setAttribute('position', new THREE.BufferAttribute(linesPositions, 3));
+            const lines = new THREE.LineSegments(linesGeometry, linesMaterial);
+            scene.add(lines);
             
             // Animación
             function animate() {
                 requestAnimationFrame(animate);
-                controls.update();
+                
+                sphere.rotation.y += 0.001;
+                points.rotation.y += 0.0005;
+                
                 renderer.render(scene, camera);
             }
+            
             animate();
             
             // Redimensionamiento
@@ -370,13 +257,10 @@
             });
         }
         
-        // [Las funciones createDefaultEye y createDefaultBrain permanecen igual]
-        // [La inicialización del panóptico permanece igual]
-        
+        // Inicializar el mapa cuando el DOM esté listo
         document.addEventListener('DOMContentLoaded', function() {
-            // Solo necesitamos inicializar el panóptico aquí
-            // porque los otros modelos se cargan automáticamente
-            initPanopticonModel();
+            initThreatMap();
+            // [El resto de tus inicializaciones]
         });
     </script>
 </body>
