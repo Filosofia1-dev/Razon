@@ -6,6 +6,8 @@
     <title>Razón, Poder y Vigilancia Digital</title>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
     <style>
         :root {
             --primary: #00f7ff;
@@ -1002,4 +1004,230 @@
             `;
         });
     }
-</script></body> </html>
+</script>
+<script>
+// Configuración de modelos 3D CON MOVIMIENTO
+function init3DModel(containerId, modelType) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    
+    // Escena
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0a0a20);
+    
+    // Cámara
+    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+    camera.position.z = 5;
+    
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(width, height);
+    container.appendChild(renderer.domElement);
+    
+    // Controles
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    
+    // Luz
+    const light = new THREE.PointLight(0x00f7ff, 1, 100);
+    light.position.set(5, 5, 5);
+    scene.add(light);
+    
+    const ambientLight = new THREE.AmbientLight(0x404040);
+    scene.add(ambientLight);
+    
+    // Objeto 3D según el tipo
+    let object;
+    if (modelType === 'intro') {
+        // Esfera de datos para introducción
+        const geometry = new THREE.SphereGeometry(1.5, 32, 32);
+        const material = new THREE.MeshPhongMaterial({ 
+            color: 0x00f7ff,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.8,
+            shininess: 100
+        });
+        object = new THREE.Mesh(geometry, material);
+    } else if (modelType === 'philosophy') {
+        // Cadena de cubos para evolución filosófica
+        const group = new THREE.Group();
+        
+        // Cubo cartesiano
+        const cubeGeo = new THREE.BoxGeometry(0.8, 0.8, 0.8);
+        const cubeMat = new THREE.MeshPhongMaterial({ 
+            color: 0xff00aa,
+            wireframe: true
+        });
+        const cube = new THREE.Mesh(cubeGeo, cubeMat);
+        cube.position.x = -2;
+        group.add(cube);
+        
+        // Esfera kantiana
+        const sphereGeo = new THREE.SphereGeometry(0.6, 24, 24);
+        const sphereMat = new THREE.MeshPhongMaterial({
+            color: 0x7b2dff,
+            wireframe: true
+        });
+        const sphere = new THREE.Mesh(sphereGeo, sphereMat);
+        group.add(sphere);
+        
+        // Conjunto de partículas para el sujeto digital
+        const particlesGeo = new THREE.BufferGeometry();
+        const particleCount = 500;
+        const posArray = new Float32Array(particleCount * 3);
+        
+        for(let i = 0; i < particleCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 4;
+        }
+        
+        particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMat = new THREE.PointsMaterial({
+            color: 0x00f7ff,
+            size: 0.02,
+            transparent: true,
+            opacity: 0.8
+        });
+        const particles = new THREE.Points(particlesGeo, particlesMat);
+        particles.position.x = 2;
+        group.add(particles);
+        
+        object = group;
+    } else if (modelType === 'kant') {
+        // Estructura geométrica compleja para Kant
+        const group = new THREE.Group();
+        
+        // Base icosaédrica
+        const icosahedronGeo = new THREE.IcosahedronGeometry(1, 1);
+        const icosahedronMat = new THREE.MeshPhongMaterial({
+            color: 0x7b2dff,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.6
+        });
+        const icosahedron = new THREE.Mesh(icosahedronGeo, icosahedronMat);
+        group.add(icosahedron);
+        
+        // Esfera interior
+        const innerSphereGeo = new THREE.SphereGeometry(0.7, 24, 24);
+        const innerSphereMat = new THREE.MeshPhongMaterial({
+            color: 0x00f7ff,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.4
+        });
+        const innerSphere = new THREE.Mesh(innerSphereGeo, innerSphereMat);
+        group.add(innerSphere);
+        
+        // Líneas de conexión
+        const lineGeo = new THREE.BufferGeometry();
+        const lineMat = new THREE.LineBasicMaterial({ color: 0xffffff });
+        const linePositions = new Float32Array([
+            0, 0, 0,  1, 1, 1,
+            0, 0, 0, -1, -1, 1,
+            0, 0, 0,  1, -1, -1,
+            0, 0, 0, -1, 1, -1
+        ]);
+        lineGeo.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+        const lines = new THREE.LineSegments(lineGeo, lineMat);
+        group.add(lines);
+        
+        object = group;
+    } else if (modelType === 'conclusion') {
+        // Estructura de red para conclusión
+        const group = new THREE.Group();
+        
+        // Nodos
+        const nodeGeo = new THREE.SphereGeometry(0.1, 16, 16);
+        const nodeMat = new THREE.MeshPhongMaterial({ color: 0x00f7ff });
+        
+        const nodeCount = 20;
+        const nodes = [];
+        const positions = [];
+        
+        for (let i = 0; i < nodeCount; i++) {
+            const node = new THREE.Mesh(nodeGeo, nodeMat);
+            const x = (Math.random() - 0.5) * 5;
+            const y = (Math.random() - 0.5) * 5;
+            const z = (Math.random() - 0.5) * 5;
+            node.position.set(x, y, z);
+            group.add(node);
+            nodes.push(node);
+            positions.push({x, y, z});
+        }
+        
+        // Conexiones
+        const lineMaterial = new THREE.LineBasicMaterial({ 
+            color: 0xff00aa,
+            transparent: true,
+            opacity: 0.5
+        });
+        
+        for (let i = 0; i < positions.length; i++) {
+            for (let j = i + 1; j < positions.length; j++) {
+                if (Math.random() > 0.7) {
+                    const geometry = new THREE.BufferGeometry();
+                    const vertices = new Float32Array([
+                        positions[i].x, positions[i].y, positions[i].z,
+                        positions[j].x, positions[j].y, positions[j].z
+                    ]);
+                    geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+                    const line = new THREE.Line(geometry, lineMaterial);
+                    group.add(line);
+                }
+            }
+        }
+        
+        object = group;
+    }
+    
+    scene.add(object);
+    
+    // Animación
+    function animate() {
+        requestAnimationFrame(animate);
+        
+        if (object) {
+            if (modelType === 'intro') {
+                object.rotation.x += 0.005;
+                object.rotation.y += 0.01;
+            } else if (modelType === 'philosophy') {
+                object.rotation.y += 0.005;
+                object.children[0].rotation.x += 0.01;
+                object.children[1].rotation.y += 0.01;
+                object.children[2].rotation.z += 0.005;
+            } else if (modelType === 'kant') {
+                object.rotation.x += 0.003;
+                object.rotation.y += 0.007;
+            } else if (modelType === 'conclusion') {
+                object.rotation.y += 0.002;
+            }
+        }
+        
+        controls.update();
+        renderer.render(scene, camera);
+    }
+    
+    animate();
+    
+    // Redimensionamiento
+    window.addEventListener('resize', function() {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+}
+
+// Inicializar modelos 3D con movimiento cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', function() {
+    init3DModel('introModel', 'intro');
+    init3DModel('philosophyModel', 'philosophy');
+    init3DModel('kantModel', 'kant');
+    init3DModel('conclusionModel', 'conclusion');
+});
+</script>
+</body> </html>
