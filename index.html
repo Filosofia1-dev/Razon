@@ -1,180 +1,1215 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Razón, Poder y Vigilancia</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
-
-    body {
-      margin: 0;
-      font-family: 'Orbitron', sans-serif;
-      color: #ffffff;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      scroll-behavior: smooth;
-    }
-
-    header {
-      background: linear-gradient(90deg, #000428, #004e92);
-      padding: 2rem;
-      text-align: center;
-      font-size: 2rem;
-      font-weight: bold;
-      letter-spacing: 1px;
-      text-shadow: 2px 2px 5px #000;
-    }
-
-    nav {
-      background-color: rgba(255, 255, 255, 0.05);
-      padding: 1rem;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-    }
-
-    nav a {
-      color: #00ffff;
-      text-decoration: none;
-      font-weight: bold;
-      transition: 0.3s;
-      border-bottom: 2px solid transparent;
-    }
-
-    nav a:hover {
-      color: #ffffff;
-      border-bottom: 2px solid #00ffff;
-      text-shadow: 0 0 5px #00ffff;
-    }
-
-    section {
-      padding: 2rem;
-      max-width: 900px;
-      margin: auto;
-      animation: fadeIn 1s ease-in-out;
-    }
-
-    h2 {
-      border-bottom: 2px solid #00ffff;
-      padding-bottom: 0.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .highlight {
-      background: linear-gradient(45deg, #ff0099, #493240);
-      padding: 1rem;
-      border-radius: 10px;
-      box-shadow: 0 0 15px #000;
-      animation: pulse 4s infinite;
-    }
-
-    .interactive {
-      margin-top: 1rem;
-      padding: 1rem;
-      border: 2px dashed #00ffff;
-      background-color: rgba(0,0,0,0.3);
-      border-radius: 10px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem;
-      background-color: #111;
-      font-size: 0.9rem;
-      color: #aaa;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes pulse {
-      0% { box-shadow: 0 0 10px #ff0099; }
-      50% { box-shadow: 0 0 20px #00ffff; }
-      100% { box-shadow: 0 0 10px #ff0099; }
-    }
-
-    .button-top {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #00ffff;
-      color: #000;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 50%;
-      font-size: 1.5rem;
-      cursor: pointer;
-      box-shadow: 0 0 10px #00ffff;
-      transition: background-color 0.3s;
-    }
-
-    .button-top:hover {
-      background-color: #00cccc;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Razón, Poder y Vigilancia Digital</title>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        :root {
+            --primary: #00f7ff;
+            --secondary: #ff00aa;
+            --dark: #0a0a20;
+            --light: #e0e0ff;
+            --accent: #7b2dff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, var(--dark), #1a1a3a);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(90deg, rgba(0,0,0,0.7), rgba(0,0,0,0.3));
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 3px solid var(--primary);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, var(--primary), transparent 70%),
+                radial-gradient(circle at 80% 70%, var(--secondary), transparent 70%);
+            opacity: 0.3;
+            z-index: -1;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 10px;
+            margin-top: 40px;
+            text-shadow: 0 0 5px rgba(0, 247, 255, 0.3);
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            margin-top: 30px;
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--light);
+            margin: 10px 0 30px;
+            font-weight: 300;
+        }
+        
+        .content-box {
+            background: rgba(10, 10, 30, 0.7);
+            border: 1px solid var(--accent);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 20px rgba(123, 45, 255, 0.2);
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .content-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 25px rgba(123, 45, 255, 0.4);
+        }
+        
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .index {
+            background: linear-gradient(135deg, rgba(10, 10, 40, 0.8), rgba(30, 5, 50, 0.8));
+            padding: 30px;
+            border-radius: 10px;
+            margin: 40px 0;
+            border-left: 5px solid var(--primary);
+        }
+        
+        .index h2 {
+            color: var(--secondary);
+            border-bottom: none;
+            margin-top: 0;
+        }
+        
+        .index ol {
+            columns: 2;
+            column-gap: 40px;
+        }
+        
+        .index li {
+            margin-bottom: 15px;
+            break-inside: avoid;
+        }
+        
+        .index a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 1.1rem;
+        }
+        
+        .index a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 3px solid var(--secondary);
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #b8b8ff;
+        }
+        
+        .author {
+            text-align: right;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .highlight {
+            background: linear-gradient(90deg, rgba(0, 247, 255, 0.2), transparent);
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .card {
+            background: linear-gradient(145deg, #151540, #0f0f2d);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid var(--accent);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .card h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+            background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.5));
+            border-top: 1px solid var(--accent);
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+        
+        .cyber-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: var(--dark);
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(0, 247, 255, 0.5);
+            margin: 20px 0;
+        }
+        
+        .cyber-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 247, 255, 0.8);
+        }
+        
+        .glow {
+            text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+        }
+        
+        /* Modelos 3D y elementos interactivos */
+        .model-container {
+            width: 100%;
+            height: 400px;
+            margin: 30px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 30px rgba(123, 45, 255, 0.3);
+            position: relative;
+        }
+        
+        .data-sphere {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .interactive-demo {
+            background: rgba(10, 10, 40, 0.7);
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .demo-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .demo-control {
+            background: rgba(0, 247, 255, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--light);
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .demo-control:hover {
+            background: rgba(0, 247, 255, 0.3);
+        }
+        
+        .demo-visualization {
+            height: 300px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .data-node {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px var(--primary);
+        }
+        
+        .data-connection {
+            position: absolute;
+            height: 2px;
+            background: var(--secondary);
+            transform-origin: 0 0;
+        }
+        
+        .case-study {
+            background: linear-gradient(145deg, #1a1a4a, #0f0f2d);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 1px solid var(--secondary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .case-study::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, var(--secondary), transparent 70%);
+            opacity: 0.3;
+            z-index: 0;
+        }
+        
+        .case-study h3 {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .case-study p {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .case-study-image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 5px;
+            margin: 15px 0;
+            border: 1px solid var(--accent);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .index ol {
+                columns: 1;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>Razón, Poder y Vigilancia: El Sujeto Moderno frente a la Privacidad Digital</header>
-  <nav>
-    <a href="#intro">Introducción</a>
-    <a href="#marco">Marco Actual</a>
-    <a href="#genealogia">Genealogía</a>
-    <a href="#nietzsche">Nietzsche</a>
-    <a href="#kant">Comentario: Kant</a>
-    <a href="#conclusion">Conclusión</a>
-  </nav>
-
-  <section id="intro">
-    <h2>1. Introducción</h2>
-    <div class="highlight">
-      Las tecnologías digitales desafían la privacidad. Este trabajo analiza los fundamentos filosóficos de esta tensión, usando a Kant y Nietzsche para cuestionar el sujeto moderno.
+    <header>
+        <div class="container">
+            <h1>Razón, Poder y Vigilancia</h1>
+            <div class="subtitle">El sujeto moderno frente a la privacidad digital</div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="content-box pulse">
+            <p>Las filtraciones masivas de escándalo, los sistemas de seguimiento algorítmicos y los modelos de negocio de segmentación exhaustiva de los usuarios demuestran la tensión constantemente presente entre la tecnología de punta y la exigencia de proteger las libertades individuales.</p>
+        </div>
+        
+        <div class="index">
+            <h2 class="glow">ÍNDICE</h2>
+            <ol>
+                <li><a href="#introduccion">Introducción</a></li>
+                <li><a href="#marco-actual">Marco actual</a></li>
+                <li><a href="#genealogia">Genealogía del concepto</a></li>
+                <li><a href="#critica">Crítica de la modernidad</a></li>
+                <li><a href="#texto">Comentario filosófico</a></li>
+                <li><a href="#casos">Casos prácticos interactivos</a></li>
+                <li><a href="#conclusion">Conclusión</a></li>
+            </ol>
+        </div>
+        
+        <section id="introduccion">
+            <h2>1. Introducción</h2>
+            <div class="content-box">
+                <p>Este ensayo tiene como objetivo rastrear hasta sus orígenes el paradigma contemporáneo que influye en nuestra concepción actual de los derechos digitales y la privacidad para someterlos a crítica filosófica.</p>
+                
+                <div class="model-container" id="introModel">
+                    <!-- Modelo 3D será insertado aquí por JavaScript -->
+                </div>
+                
+                <p>Para ello tomaremos como referencia a <span class="highlight">Immanuel Kant</span> y <span class="highlight">Friedrich Nietzsche</span>. La filosofía de Kant nos aportará criterios desde su idea de autonomía moral y dignidad de la persona, mientras que Nietzsche nos dará una crítica radical de la moral y del sujeto establecido.</p>
+                
+                <button class="cyber-button" id="exploreBtn">Explorar el análisis</button>
+            </div>
+        </section>
+        
+        <section id="marco-actual">
+            <h2>2. Marco actual: Vigilancia Digital</h2>
+            <div class="content-box">
+                <p>Los derechos digitales son el conjunto de libertades y garantías que protegen a los ciudadanos en la esfera virtual: acceso a información, libertad de expresión en línea, protección de datos y control sobre su identidad digital.</p>
+                
+                <div class="interactive-demo">
+                    <h3>Demo: Rastreo de datos en tiempo real</h3>
+                    <div class="demo-controls">
+                        <div class="demo-control" id="startTracking">Iniciar rastreo</div>
+                        <div class="demo-control" id="showConnections">Mostrar conexiones</div>
+                        <div class="demo-control" id="analyzePatterns">Analizar patrones</div>
+                    </div>
+                    <div class="demo-visualization" id="dataTrackingDemo">
+                        <!-- Visualización interactiva será generada aquí -->
+                    </div>
+                    <p id="demoDescription">Haz clic en "Iniciar rastreo" para simular cómo las plataformas recopilan tus datos de navegación.</p>
+                </div>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h3>Cambridge Analytica</h3>
+                        <p>Escándalo que reveló cómo se explotaron datos de millones de usuarios de Facebook para influir en elecciones.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Programa PRISM</h3>
+                        <p>Sistema de vigilancia gubernamental que accedía a correos electrónicos y historiales de navegación.</p>
+                    </div>
+                    <div class="card">
+                        <h3>RGPD Europeo</h3>
+                        <p>Reglamento que obliga a empresas a obtener consentimiento explícito para el uso de datos personales.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="genealogia">
+            <h2>3. Genealogía del Concepto</h2>
+            <div class="content-box">
+                <h3>Del sujeto racional al sujeto calculable</h3>
+                <p>La filosofía moderna instauró al yo pensante como primer principio. Descartes: "Pienso, luego existo". Kant desarrolló la idea del sujeto trascendental que organiza la experiencia.</p>
+                
+                <div class="model-container" id="philosophyModel">
+                    <!-- Modelo 3D de evolución del concepto de sujeto -->
+                </div>
+                
+                <p>Hoy, ese sujeto autónomo se ha transformado en un "sujeto calculable", un conjunto de datos medibles. La acción humana en la economía digital se convierte en información explotable.</p>
+                
+                <div class="quote">
+                    <p>"La comercialización de vigilancia es la mercantilización de masas de nuestros datos individuales"</p>
+                    <div class="author">Shoshana Zuboff</div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="critica">
+            <h2>4. Crítica de la Modernidad</h2>
+            <div class="content-box">
+                <h3>Nietzsche y la desconfianza hacia la razón</h3>
+                <p>Nietzsche critica la racionalidad ilustrada como herramienta no neutral, a menudo máscara del poder. El "yo" consciente es un artificio del lenguaje que oculta flujos instintivos.</p>
+                
+                <div class="interactive-demo">
+                    <h3>Experimento: La ilusión de privacidad</h3>
+                    <div class="demo-controls">
+                        <div class="demo-control" id="acceptTerms">Aceptar términos</div>
+                        <div class="demo-control" id="customizeSettings">Personalizar ajustes</div>
+                        <div class="demo-control" id="seeDataCollected">Ver datos recopilados</div>
+                    </div>
+                    <div class="demo-visualization" id="privacyDemo">
+                        <!-- Visualización de términos y condiciones -->
+                    </div>
+                    <p id="privacyDemoResult">¿Realmente controlas tu privacidad o solo crees que lo haces?</p>
+                </div>
+                
+                <p>Esta crítica nos ayuda a entender la "ilusión digital de libertad": creemos navegar libremente mientras aceptamos ser monitoreados y segmentados con fines comerciales.</p>
+            </div>
+        </section>
+        
+        <section id="texto">
+            <h2>5. Kant: Crítica de la Razón Pura</h2>
+            <div class="content-box">
+                <div class="quote">
+                    <p>"La unidad de la apercepción es aquella condición bajo la cual todo pensamiento debe estar sometido. Esta unidad es originaria, y no puede ser derivada de ninguna otra forma de conciencia"</p>
+                    <div class="author">Kant, Crítica de la razón pura</div>
+                </div>
+                
+                <div class="model-container" id="kantModel">
+                    <!-- Modelo 3D del concepto kantiano -->
+                </div>
+                
+                <p>Para Kant, el ser humano no es un mero receptáculo de datos, sino el origen activo de toda organización posible del conocimiento. Sin embargo, en la era digital, el sujeto trascendental kantiano ha sido degradado a objeto de cálculo.</p>
+                
+                <button class="cyber-button" id="compareBtn">Comparar con visión nietzscheana</button>
+            </div>
+        </section>
+        
+        <section id="casos">
+            <h2>6. Casos Prácticos Interactivos</h2>
+            
+            <div class="case-study">
+                <h3>Caso 1: El mito del consentimiento informado</h3>
+                <div class="case-study-image" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                <p>¿Alguna vez has leído completamente los términos y condiciones de una app? Este simulador te muestra qué realmente estás aceptando cuando haces clic en "Aceptar".</p>
+                
+                <div class="interactive-demo">
+                    <div class="demo-controls">
+                        <div class="demo-control" id="showTerms">Mostrar términos reales</div>
+                        <div class="demo-control" id="calculateTime">Calcular tiempo de lectura</div>
+                        <div class="demo-control" id="highlightClauses">Resaltar cláusulas clave</div>
+                    </div>
+                    <div class="demo-visualization" id="termsDemo">
+                        <!-- Visualización de términos y condiciones -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="case-study">
+                <h3>Caso 2: Tu perfil algorítmico</h3>
+                <div class="case-study-image" style="background-image: url('https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                <p>Las plataformas crean un "tú digital" basado en tus datos. Este simulador reconstruye cómo los algoritmos te ven basado en patrones de navegación.</p>
+                
+                <div class="interactive-demo">
+                    <div class="demo-controls">
+                        <div class="demo-control" id="generateProfile">Generar perfil</div>
+                        <div class="demo-control" id="showInferences">Mostrar inferencias</div>
+                        <div class="demo-control" id="compareReality">Comparar con realidad</div>
+                    </div>
+                    <div class="demo-visualization" id="profileDemo">
+                        <!-- Visualización de perfil algorítmico -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="case-study">
+                <h3>Caso 3: La economía de la atención</h3>
+                <div class="case-study-image" style="background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                <p>Este experimento muestra cómo las plataformas optimizan sus diseños para maximizar tu tiempo en pantalla y recopilar más datos.</p>
+                
+                <div class="interactive-demo">
+                    <div class="demo-controls">
+                        <div class="demo-control" id="startExperiment">Iniciar experimento</div>
+                        <div class="demo-control" id="showPatterns">Mostrar patrones</div>
+                        <div class="demo-control" id="revealManipulation">Revelar técnicas</div>
+                    </div>
+                    <div class="demo-visualization" id="attentionDemo">
+                        <!-- Visualización de economía de atención -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="conclusion">
+            <h2>7. Conclusión</h2>
+            <div class="content-box">
+                <p>Hemos visto cómo los derechos digitales están en crisis por la tensión entre libertad individual y control institucional. El sujeto autónomo de la modernidad se ha transformado en un sujeto calculable dentro de la economía de datos.</p>
+                
+                <div class="model-container" id="conclusionModel">
+                    <!-- Modelo 3D de conclusión -->
+                </div>
+                
+                <p>La privacidad digital no es solo un problema técnico, sino filosófico y existencial. En la era de las plataformas, la captura de datos crea "sombras digitales" que modelan nuestra identidad y comportamiento, amenazando la autonomía personal.</p>
+                
+                <button class="cyber-button" id="solutionsBtn">Explorar posibles soluciones</button>
+            </div>
+        </section>
     </div>
-  </section>
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 Razón, Poder y Vigilancia - Filosofía de la Privacidad Digital</p>
+        </div>
+    </footer>
 
-  <section id="marco">
-    <h2>2. Marco Actual</h2>
-    <p>Los derechos digitales —acceso, expresión, privacidad— están en crisis por vigilancia estatal y explotación empresarial. El RGPD intenta frenarlo, pero su eficacia es limitada.</p>
-    <div class="interactive">
-      <iframe width="100%" height="300" src="https://sketchfab.com/models/ba60bfa3131f4c10aa56f57ac1e175d5/embed" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-      <p style="font-size: 0.9rem;">Visualización 3D de una cámara de vigilancia como símbolo del control digital.</p>
-    </div>
-  </section>
+    <script>
+        // Configuración de modelos 3D
+        function init3DModel(containerId, modelType) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            
+            // Escena
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0a0a20);
+            
+            // Cámara
+            const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+            camera.position.z = 5;
+            
+            // Renderer
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(width, height);
+            container.appendChild(renderer.domElement);
+            
+            // Controles
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            
+            // Luz
+            const light = new THREE.PointLight(0x00f7ff, 1, 100);
+            light.position.set(5, 5, 5);
+            scene.add(light);
+            
+            const ambientLight = new THREE.AmbientLight(0x404040);
+            scene.add(ambientLight);
+            
+            // Objeto 3D según el tipo
+            let object;
+            if (modelType === 'intro') {
+                // Esfera de datos para introducción
+                const geometry = new THREE.SphereGeometry(1.5, 32, 32);
+                const material = new THREE.MeshPhongMaterial({ 
+                    color: 0x00f7ff,
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.8,
+                    shininess: 100
+                });
+                object = new THREE.Mesh(geometry, material);
+            } else if (modelType === 'philosophy') {
+                // Cadena de cubos para evolución filosófica
+                const group = new THREE.Group();
+                
+                // Cubo cartesiano
+                const cubeGeo = new THREE.BoxGeometry(0.8, 0.8, 0.8);
+                const cubeMat = new THREE.MeshPhongMaterial({ 
+                    color: 0xff00aa,
+                    wireframe: true
+                });
+                const cube = new THREE.Mesh(cubeGeo, cubeMat);
+                cube.position.x = -2;
+                group.add(cube);
+                
+                // Esfera kantiana
+                const sphereGeo = new THREE.SphereGeometry(0.6, 24, 24);
+                const sphereMat = new THREE.MeshPhongMaterial({
+                    color: 0x7b2dff,
+                    wireframe: true
+                });
+                const sphere = new THREE.Mesh(sphereGeo, sphereMat);
+                group.add(sphere);
+                
+                // Conjunto de partículas para el sujeto digital
+                const particlesGeo = new THREE.BufferGeometry();
+                const particleCount = 500;
+                const posArray = new Float32Array(particleCount * 3);
+                
+                for(let i = 0; i < particleCount * 3; i++) {
+                    posArray[i] = (Math.random() - 0.5) * 4;
+                }
+                
+                particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+                const particlesMat = new THREE.PointsMaterial({
+                    color: 0x00f7ff,
+                    size: 0.02,
+                    transparent: true,
+                    opacity: 0.8
+                });
+                const particles = new THREE.Points(particlesGeo, particlesMat);
+                particles.position.x = 2;
+                group.add(particles);
+                
+                object = group;
+            } else if (modelType === 'kant') {
+                // Estructura geométrica compleja para Kant
+                const group = new THREE.Group();
+                
+                // Base icosaédrica
+                const icosahedronGeo = new THREE.IcosahedronGeometry(1, 1);
+                const icosahedronMat = new THREE.MeshPhongMaterial({
+                    color: 0x7b2dff,
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.6
+                });
+                const icosahedron = new THREE.Mesh(icosahedronGeo, icosahedronMat);
+                group.add(icosahedron);
+                
+                // Esfera interior
+                const innerSphereGeo = new THREE.SphereGeometry(0.7, 24, 24);
+                const innerSphereMat = new THREE.MeshPhongMaterial({
+                    color: 0x00f7ff,
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.4
+                });
+                const innerSphere = new THREE.Mesh(innerSphereGeo, innerSphereMat);
+                group.add(innerSphere);
+                
+                // Líneas de conexión
+                const lineGeo = new THREE.BufferGeometry();
+                const lineMat = new THREE.LineBasicMaterial({ color: 0xffffff });
+                const linePositions = new Float32Array([
+                    0, 0, 0,  1, 1, 1,
+                    0, 0, 0, -1, -1, 1,
+                    0, 0, 0,  1, -1, -1,
+                    0, 0, 0, -1, 1, -1
+                ]);
+                lineGeo.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+                const lines = new THREE.LineSegments(lineGeo, lineMat);
+                group.add(lines);
+                
+                object = group;
+            } else if (modelType === 'conclusion') {
+                // Estructura de red para conclusión
+                const group = new THREE.Group();
+                
+                // Nodos
+                const nodeGeo = new THREE.SphereGeometry(0.1, 16, 16);
+                const nodeMat = new THREE.MeshPhongMaterial({ color: 0x00f7ff });
+                
+                const nodeCount = 20;
+                const nodes = [];
+                const positions = [];
+                
+                for (let i = 0; i < nodeCount; i++) {
+                    const node = new THREE.Mesh(nodeGeo, nodeMat);
+                    const x = (Math.random() - 0.5) * 5;
+                    const y = (Math.random() - 0.5) * 5;
+                    const z = (Math.random() - 0.5) * 5;
+                    node.position.set(x, y, z);
+                    group.add(node);
+                    nodes.push(node);
+                    positions.push({x, y, z});
+                }
+                
+                // Conexiones
+                const lineMaterial = new THREE.LineBasicMaterial({ 
+                    color: 0xff00aa,
+                    transparent: true,
+                    opacity: 0.5
+                });
+                
+                for (let i = 0; i < positions.length; i++) {
+                    for (let j = i + 1; j < positions.length; j++) {
+                        if (Math.random() > 0.7) {
+                            const geometry = new THREE.BufferGeometry();
+                            const vertices = new Float32Array([
+                                positions[i].x, positions[i].y, positions[i].z,
+                                positions[j].x, positions[j].y, positions[j].z
+                            ]);
+                            geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+                            const line = new THREE.Line(geometry, lineMaterial);
+                            group.add(line);
+                        }
+                    }
+                }
+                
+                object = group;
+            }
+            
+            scene.add(object);
+            
+            // Animación
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                if (object) {
+                    if (modelType === 'intro') {
+                        object.rotation.x += 0.005;
+                        object.rotation.y += 0.01;
+                    } else if (modelType === 'philosophy') {
+                        object.rotation.y += 0.005;
+                        object.children[0].rotation.x += 0.01;
+                        object.children[1].rotation.y += 0.01;
+                        object.children[2].rotation.z += 0.005;
+                    } else if (modelType === 'kant') {
+                        object.rotation.x += 0.003;
+                        object.rotation.y += 0.007;
+                    } else if (modelType === 'conclusion') {
+                        object.rotation.y += 0.002;
+                    }
+                }
+                
+                controls.update();
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // Redimensionamiento
+            window.addEventListener('resize', function() {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        }
+        
+        // Inicializar modelos 3D cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            init3DModel('introModel', 'intro');
+            init3DModel('philosophyModel', 'philosophy');
+            init3DModel('kantModel', 'kant');
+            init3DModel('conclusionModel', 'conclusion');
+            
+            // Interactividad para demostraciones
+            setupInteractiveDemos();
+        });
+        
+        // Configurar demostraciones interactivas
+        function setupInteractiveDemos() {
+            // Demo de rastreo de datos
+            const dataDemo = document.getElementById('dataTrackingDemo');
+            const demoDesc = document.getElementById('demoDescription');
+            
+            document.getElementById('startTracking').addEventListener('click', function() {
+                dataDemo.innerHTML = '';
+                demoDesc.textContent = 'Simulando recopilación de datos de navegación...';
+                
+                // Crear nodos de datos
+                for (let i = 0; i < 15; i++) {
+                    const node = document.createElement('div');
+                    node.className = 'data-node';
+                    node.style.left = `${10 + Math.random() * 80}%`;
+                    node.style.top = `${10 + Math.random() * 80}%`;
+                    node.style.backgroundColor = i < 5 ? '#00f7ff' : (i < 10 ? '#ff00aa' : '#7b2dff');
+                    node.style.width = `${15 + Math.random() * 10}px`;
+                    node.style.height = node.style.width;
+                    dataDemo.appendChild(node);
+                }
+                
+                setTimeout(() => {
+                    demoDesc.textContent = 'Se han identificado 15 puntos de datos de tu actividad.';
+                }, 1500);
+            });
+            
+            document.getElementById('showConnections').addEventListener('click', function() {
+                const nodes = dataDemo.querySelectorAll('.data-node');
+                if (nodes.length === 0) return;
+                
+                // Crear conexiones
+                dataDemo.innerHTML = '';
+                nodes.forEach(node => dataDemo.appendChild(node));
+                
+                for (let i = 0; i < nodes.length; i++) {
+                    for (let j = i + 1; j < nodes.length; j++) {
+                        if (Math.random() > 0.7) {
+                            const line = document.createElement('div');
+                            line.className = 'data-connection';
+                            
+                            const x1 = parseFloat(nodes[i].style.left);
+                            const y1 = parseFloat(nodes[i].style.top);
+                            const x2 = parseFloat(nodes[j].style.left);
+                            const y2 = parseFloat(nodes[j].style.top);
+                            
+                            const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+                            const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+                            
+                            line.style.width = `${length}%`;
+                            line.style.left = `${x1}%`;
+                            line.style.top = `${y1}%`;
+                            line.style.transform = `rotate(${angle}deg)`;
+                            
+                            dataDemo.appendChild(line);
+                        }
+                    }
+                }
+                          demoDesc.textContent = 'Las plataformas conectan tus datos para crear un perfil detallado de tu comportamiento.';
+        });
 
-  <section id="genealogia">
-    <h2>3. Genealogía del Problema</h2>
-    <p>Desde Descartes hasta el Estado moderno, la razón se convierte en herramienta de control. El sujeto racional se transforma hoy en sujeto calculable, cuantificado y vigilado.</p>
-    <div class="interactive">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Surveillance_cameras_in_Tokyo.jpg/640px-Surveillance_cameras_in_Tokyo.jpg" alt="Cámaras de vigilancia en ciudad" width="100%" />
-      <p style="font-size: 0.9rem;">Red de cámaras como metáfora de la racionalización de la vigilancia.</p>
-    </div>
-  </section>
+        document.getElementById('analyzePatterns').addEventListener('click', function() {
+            demoDesc.textContent = 'Analizando patrones para predecir tu comportamiento futuro...';
+            
+            setTimeout(() => {
+                // Mostrar resultados de análisis
+                dataDemo.innerHTML = `
+                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); 
+                                background:rgba(10,10,30,0.9); padding:20px; border-radius:10px; 
+                                border:1px solid var(--primary); width:80%;">
+                        <h4 style="color:var(--primary); margin-top:0;">Resultados del análisis predictivo</h4>
+                        <ul style="color:var(--light);">
+                            <li>Probabilidad de compra: 78%</li>
+                            <li>Intereses detectados: tecnología, filosofía</li>
+                            <li>Horarios de actividad: 9am-11pm</li>
+                            <li>Grupo demográfico: profesional, 25-35 años</li>
+                        </ul>
+                    </div>
+                `;
+                demoDesc.textContent = 'Los algoritmos pueden predecir con precisión tus comportamientos futuros basados en estos datos.';
+            }, 2000);
+        });
 
-  <section id="nietzsche">
-    <h2>4. Crítica Nietzscheana</h2>
-    <p>Nietzsche denuncia la razón como máscara del poder. Lo que parece libertad digital es sumisión calculada. Surge así un nihilismo de la privacidad que destruye la autonomía.</p>
-  </section>
+        // Demo de términos y condiciones
+        const privacyDemo = document.getElementById('privacyDemo');
+        const privacyResult = document.getElementById('privacyDemoResult');
 
-  <section id="kant">
-    <h2>5. Comentario de Kant</h2>
-    <p>El sujeto trascendental kantiano unifica la experiencia. Pero en la era digital, el "usuario" ya no categoriza el mundo, sino que es categorizado por algoritmos.</p>
-    <div class="interactive">
-      <img src="https://miro.medium.com/v2/resize:fit:1200/1*Y5pV7d-KL6JK7RYEmsvwnw.png" alt="Algoritmos clasificando datos" width="100%" />
-      <p style="font-size: 0.9rem;">Visualización de cómo los algoritmos perfilan al sujeto digital.</p>
-    </div>
-  </section>
+        document.getElementById('acceptTerms').addEventListener('click', function() {
+            privacyDemo.innerHTML = `
+                <div style="position:relative; height:100%; overflow-y:scroll; padding:15px; color:var(--light);">
+                    <h4 style="color:var(--primary);">Términos y condiciones aceptados</h4>
+                    <p>Has concedido permiso para:</p>
+                    <ul>
+                        <li>Recopilar tu historial de navegación</li>
+                        <li>Compartir datos con terceros</li>
+                        <li>Usar tu ubicación en segundo plano</li>
+                        <li>Analizar tus mensajes para publicidad</li>
+                        <li>Vender tus datos a socios comerciales</li>
+                    </ul>
+                </div>
+            `;
+            privacyResult.textContent = '¿Sabías que el 97% de los usuarios aceptan términos sin leerlos?';
+        });
 
-  <section id="conclusion">
-    <h2>6. Conclusión</h2>
-    <p>La privacidad es un problema filosófico. El sujeto moderno, pensado como libre, hoy aparece atrapado en sistemas técnicos que despojan su autonomía. Urge repensar nuestra relación con la tecnología.</p>
-  </section>
+        document.getElementById('customizeSettings').addEventListener('click', function() {
+            privacyDemo.innerHTML = `
+                <div style="position:relative; height:100%; padding:15px; color:var(--light);">
+                    <h4 style="color:var(--primary);">Ajustes de privacidad</h4>
+                    <p>Opciones disponibles:</p>
+                    <div style="margin:15px 0;">
+                        <label style="display:block; margin-bottom:10px;">
+                            <input type="checkbox" checked disabled> Recopilar datos de uso
+                        </label>
+                        <label style="display:block; margin-bottom:10px;">
+                            <input type="checkbox"> Compartir con anunciantes
+                        </label>
+                        <label style="display:block; margin-bottom:10px;">
+                            <input type="checkbox" checked disabled> Datos de ubicación
+                        </label>
+                    </div>
+                    <p style="font-size:0.8em; color:var(--secondary);">Nota: Desactivar algunas opciones puede limitar la funcionalidad</p>
+                </div>
+            `;
+            privacyResult.textContent = 'Incluso cuando personalizas, muchas opciones esenciales están pre-seleccionadas o son obligatorias.';
+        });
 
-  <footer>
-    Trabajo filosófico | 2025 | Basado en Kant, Nietzsche y la teoría crítica de la vigilancia
-  </footer>
+        document.getElementById('seeDataCollected').addEventListener('click', function() {
+            privacyDemo.innerHTML = `
+                <div style="position:relative; height:100%; padding:15px; color:var(--light);">
+                    <h4 style="color:var(--primary);">Datos recopilados sobre ti</h4>
+                    <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:15px;">
+                        <div style="background:rgba(0,247,255,0.1); padding:10px; border-radius:5px; border:1px solid var(--primary);">
+                            <small>Ubicaciones (1,248)</small>
+                        </div>
+                        <div style="background:rgba(0,247,255,0.1); padding:10px; border-radius:5px; border:1px solid var(--primary);">
+                            <small>Búsquedas (5,712)</small>
+                        </div>
+                        <div style="background:rgba(0,247,255,0.1); padding:10px; border-radius:5px; border:1px solid var(--primary);">
+                            <small>Contactos (183)</small>
+                        </div>
+                        <div style="background:rgba(0,247,255,0.1); padding:10px; border-radius:5px; border:1px solid var(--primary);">
+                            <small>Mensajes analizados (14,229)</small>
+                        </div>
+                        <div style="background:rgba(0,247,255,0.1); padding:10px; border-radius:5px; border:1px solid var(--primary);">
+                            <small>Dispositivos conectados (5)</small>
+                        </div>
+                        <div style="background:rgba(0,247,255,0.1); padding:10px; border-radius:5px; border:1px solid var(--primary);">
+                            <small>Compras (87)</small>
+                        </div>
+                    </div>
+                </div>
+            `;
+            privacyResult.textContent = 'Las plataformas recopilan miles de puntos de datos sobre ti, creando un perfil detallado.';
+        });
 
-  <button class="button-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">↑</button>
-</body>
+        // Casos prácticos interactivos
+        setupCaseStudyDemos();
+    }
+
+    function setupCaseStudyDemos() {
+        // Caso 1: Términos y condiciones
+        const termsDemo = document.getElementById('termsDemo');
+        
+        document.getElementById('showTerms').addEventListener('click', function() {
+            termsDemo.innerHTML = `
+                <div style="height:100%; overflow-y:scroll; padding:15px; color:var(--light); font-size:0.8em;">
+                    <h4 style="color:var(--primary); margin-top:0;">Términos y Condiciones Completo</h4>
+                    <p>Al utilizar este servicio, usted acepta irrevocablemente que todos los datos generados a través de su uso de este servicio, incluyendo pero no limitado a:</p>
+                    <ul>
+                        <li>Datos de localización GPS precisos</li>
+                        <li>Historial completo de navegación</li>
+                        <li>Contenido de mensajes y correos</li>
+                        <li>Lista completa de contactos</li>
+                        <li>Patrones de uso del dispositivo</li>
+                    </ul>
+                    <p>...serán recopilados, analizados, almacenados indefinidamente, compartidos con terceros incluyendo socios comerciales y agencias gubernamentales, y utilizados para crear perfiles predictivos de comportamiento.</p>
+                    <p>Usted renuncia expresamente a cualquier expectativa de privacidad con respecto a estos datos y acepta que pueden ser utilizados para cualquier propósito comercial o de otro tipo a discreción exclusiva de la compañía.</p>
+                    <p>Al continuar, usted certifica que ha leído y comprendido completamente estos términos en su totalidad y acepta todas las condiciones aquí establecidas sin reservas.</p>
+                </div>
+            `;
+        });
+
+        document.getElementById('calculateTime').addEventListener('click', function() {
+            termsDemo.innerHTML = `
+                <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); 
+                            text-align:center; color:var(--light); width:90%;">
+                    <h4 style="color:var(--secondary);">Tiempo estimado de lectura</h4>
+                    <div style="font-size:2em; color:var(--primary); margin:20px 0;">14 minutos 37 segundos</div>
+                    <p>Para leer completamente los términos y condiciones de un servicio promedio</p>
+                    <p style="font-size:0.8em; color:var(--secondary);">Estudio: 98% de usuarios aceptan sin leer</p>
+                </div>
+            `;
+        });
+
+        document.getElementById('highlightClauses').addEventListener('click', function() {
+            termsDemo.innerHTML = `
+                <div style="height:100%; overflow-y:scroll; padding:15px; color:var(--light); font-size:0.8em;">
+                    <h4 style="color:var(--primary); margin-top:0;">Cláusulas Clave Ocultas</h4>
+                    <p>Al utilizar este servicio, usted acepta irrevocablemente que <span style="background:rgba(255,0,170,0.3); padding:2px;">todos los datos generados</span> a través de su uso de este servicio, incluyendo pero no limitado a:</p>
+                    <ul>
+                        <li style="background:rgba(255,0,170,0.1);">Datos de localización GPS precisos</li>
+                        <li>Historial completo de navegación</li>
+                        <li style="background:rgba(255,0,170,0.1);">Contenido de mensajes y correos</li>
+                        <li>Lista completa de contactos</li>
+                        <li style="background:rgba(255,0,170,0.1);">Patrones de uso del dispositivo</li>
+                    </ul>
+                    <p>...serán <span style="background:rgba(255,0,170,0.3); padding:2px;">recopilados, analizados, almacenados indefinidamente, compartidos con terceros</span> incluyendo socios comerciales y agencias gubernamentales, y utilizados para crear perfiles predictivos de comportamiento.</p>
+                    <p style="background:rgba(255,0,170,0.2); padding:10px;">Usted renuncia expresamente a cualquier expectativa de privacidad con respecto a estos datos y acepta que pueden ser utilizados para cualquier propósito comercial o de otro tipo a discreción exclusiva de la compañía.</p>
+                    <p>Al continuar, usted certifica que ha leído y comprendido completamente estos términos en su totalidad y acepta todas las condiciones aquí establecidas sin reservas.</p>
+                </div>
+            `;
+        });
+
+        // Caso 2: Perfil algorítmico
+        const profileDemo = document.getElementById('profileDemo');
+        
+        document.getElementById('generateProfile').addEventListener('click', function() {
+            profileDemo.innerHTML = `
+                <div style="position:relative; height:100%; padding:15px; color:var(--light);">
+                    <h4 style="color:var(--primary); margin-top:0;">Tu Perfil Algorítmico</h4>
+                    <div style="display:flex; margin-top:20px;">
+                        <div style="width:100px; height:100px; border-radius:50%; 
+                                    background:linear-gradient(45deg, var(--primary), var(--accent)); 
+                                    display:flex; align-items:center; justify-content:center; 
+                                    font-size:2em; margin-right:20px;">
+                            ${String.fromCodePoint(0x1F9D1)}
+                        </div>
+                        <div>
+                            <h5 style="margin:0; color:var(--secondary);">Usuario #${Math.floor(Math.random()*1000000)}</h5>
+                            <p style="margin:5px 0; font-size:0.9em;">Perfil creado: ${new Date().toLocaleDateString()}</p>
+                        </div>
+                    </div>
+                    <div style="margin-top:20px;">
+                        <p style="margin:5px 0;"><strong>Edad estimada:</strong> ${25 + Math.floor(Math.random()*15)}</p>
+                        <p style="margin:5px 0;"><strong>Género probable:</strong> ${Math.random() > 0.5 ? 'Masculino' : 'Femenino'}</p>
+                        <p style="margin:5px 0;"><strong>Intereses principales:</strong> tecnología, filosofía, política</p>
+                        <p style="margin:5px 0;"><strong>Nivel adquisitivo:</strong> ${['medio', 'medio-alto', 'alto'][Math.floor(Math.random()*3)]}</p>
+                    </div>
+                </div>
+            `;
+        });
+
+        document.getElementById('showInferences').addEventListener('click', function() {
+            if (!profileDemo.innerHTML) return;
+            
+            profileDemo.innerHTML += `
+                <div style="position:absolute; bottom:15px; left:15px; right:15px; 
+                            background:rgba(10,10,30,0.8); padding:10px; border-radius:5px;
+                            border:1px solid var(--secondary);">
+                    <h5 style="margin:0 0 10px 0; color:var(--primary);">Inferencias Algorítmicas</h5>
+                    <ul style="margin:0; padding-left:20px; font-size:0.8em;">
+                        <li>Probabilidad de comprar productos premium: 78%</li>
+                        <li>Tendencia política probable: ${Math.random() > 0.5 ? 'progresista' : 'conservadora'}</li>
+                        <li>Horario de mayor actividad: ${['mañana', 'tarde', 'noche'][Math.floor(Math.random()*3)]}</li>
+                        <li>Susceptibilidad a anuncios: alta</li>
+                    </ul>
+                </div>
+            `;
+        });
+
+        document.getElementById('compareReality').addEventListener('click', function() {
+            profileDemo.innerHTML = `
+                <div style="position:relative; height:100%; padding:15px; color:var(--light);">
+                    <h4 style="color:var(--primary); margin-top:0;">Perfil vs Realidad</h4>
+                    <div style="display:flex; justify-content:space-between; margin-top:20px;">
+                        <div style="width:48%; background:rgba(0,247,255,0.1); padding:10px; border-radius:5px;">
+                            <h5 style="color:var(--primary); margin-top:0;">Perfil Algorítmico</h5>
+                            <ul style="font-size:0.8em;">
+                                <li>Edad: 32</li>
+                                <li>Intereses: tecnología, política</li>
+                                <li>Nivel adquisitivo: medio-alto</li>
+                                <li>Horario: nocturno</li>
+                            </ul>
+                        </div>
+                        <div style="width:48%; background:rgba(255,0,170,0.1); padding:10px; border-radius:5px;">
+                            <h5 style="color:var(--secondary); margin-top:0;">Realidad</h5>
+                            <ul style="font-size:0.8em;">
+                                <li>Edad: 28</li>
+                                <li>Intereses: filosofía, música</li>
+                                <li>Nivel adquisitivo: medio</li>
+                                <li>Horario: matutino</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div style="margin-top:20px; padding:10px; background:rgba(123,45,255,0.1); border-radius:5px;">
+                        <p style="margin:0; font-size:0.8em;">Precisión del perfil: 65%</p>
+                        <div style="height:5px; background:var(--dark); margin-top:5px; border-radius:5px;">
+                            <div style="width:65%; height:100%; background:linear-gradient(90deg, var(--primary), var(--secondary)); border-radius:5px;"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        // Caso 3: Economía de la atención
+        const attentionDemo = document.getElementById('attentionDemo');
+        
+        document.getElementById('startExperiment').addEventListener('click', function() {
+            attentionDemo.innerHTML = `
+                <div style="position:relative; height:100%; overflow:hidden;">
+                    <div id="attentionContent" style="position:absolute; width:100%; height:200%; top:0; left:0; transition:top 5s;">
+                        <div style="height:50%; padding:15px; color:var(--light);">
+                            <h4 style="color:var(--primary); margin-top:0;">Contenido Principal</h4>
+                            <p>Este es el contenido que viniste a ver originalmente...</p>
+                        </div>
+                        <div style="height:50%; padding:15px; background:rgba(255,0,170,0.1);">
+                            <h4 style="color:var(--secondary); margin-top:0;">Recomendado Para Ti</h4>
+                            <p>Basado en tu actividad reciente...</p>
+                            <div style="display:flex; gap:10px; margin-top:15px;">
+                                <div style="width:30%; height:80px; background:rgba(255,255,255,0.1);"></div>
+                                <div style="width:30%; height:80px; background:rgba(255,255,255,0.1);"></div>
+                                <div style="width:30%; height:80px; background:rgba(255,255,255,0.1);"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                document.getElementById('attentionContent').style.top = '-100%';
+            }, 1000);
+        });
+
+        document.getElementById('showPatterns').addEventListener('click', function() {
+            attentionDemo.innerHTML = `
+                <div style="position:relative; height:100%; padding:15px; color:var(--light);">
+                    <h4 style="color:var(--primary); margin-top:0;">Patrones de Diseño para Captar Atención</h4>
+                    <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:20px;">
+                        <div style="width:calc(50% - 5px); background:rgba(0,247,255,0.1); padding:10px; border-radius:5px;">
+                            <h5 style="margin:0 0 5px 0; color:var(--primary);">Scroll Infinito</h5>
+                            <p style="margin:0; font-size:0.8em;">Elimina puntos naturales de parada</p>
+                        </div>
+                        <div style="width:calc(50% - 5px); background:rgba(0,247,255,0.1); padding:10px; border-radius:5px;">
+                            <h5 style="margin:0 0 5px 0; color:var(--primary);">Notificaciones</h5>
+                            <p style="margin:0; font-size:0.8em;">Crea urgencia artificial</p>
+                        </div>
+                        <div style="width:calc(50% - 5px); background:rgba(0,247,255,0.1); padding:10px; border-radius:5px;">
+                            <h5 style="margin:0 0 5px 0; color:var(--primary);">Autoplay</h5>
+                            <p style="margin:0; font-size:0.8em;">Inicia contenido automáticamente</p>
+                        </div>
+                        <div style="width:calc(50% - 5px); background:rgba(0,247,255,0.1); padding:10px; border-radius:5px;">
+                            <h5 style="margin:0 0 5px 0; color:var(--primary);">Recompensas variables</h5>
+                            <p style="margin:0; font-size:0.8em;">Sistema de gratificación impredecible</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        document.getElementById('revealManipulation').addEventListener('click', function() {
+            attentionDemo.innerHTML = `
+                <div style="position:relative; height:100%; padding:15px; color:var(--light);">
+                    <h4 style="color:var(--secondary); margin-top:0;">Técnicas de Manipulación</h4>
+                    <div style="margin-top:20px; position:relative;">
+                        <div style="position:absolute; width:100%; height:2px; background:var(--secondary); top:50%;"></div>
+                        <div style="position:relative; z-index:1; display:flex; justify-content:space-between;">
+                            <div style="background:var(--dark); padding:0 10px;">
+                                <div style="width:50px; height:50px; border-radius:50%; background:var(--secondary); 
+                                            display:flex; align-items:center; justify-content:center; margin:0 auto;">
+                                    1
+                                </div>
+                                <p style="text-align:center; margin:5px 0 0; font-size:0.8em;">Captar atención</p>
+                            </div>
+                            <div style="background:var(--dark); padding:0 10px;">
+                                <div style="width:50px; height:50px; border-radius:50%; background:var(--secondary); 
+                                            display:flex; align-items:center; justify-content:center; margin:0 auto;">
+                                    2
+                                </div>
+                                <p style="text-align:center; margin:5px 0 0; font-size:0.8em;">Mantener engagement</p>
+                            </div>
+                            <div style="background:var(--dark); padding:0 10px;">
+                                <div style="width:50px; height:50px; border-radius:50%; background:var(--secondary); 
+                                            display:flex; align-items:center; justify-content:center; margin:0 auto;">
+                                    3
+                                </div>
+                                <p style="text-align:center; margin:5px 0 0; font-size:0.8em;">Recopilar datos</p>
+                            </div>
+                            <div style="background:var(--dark); padding:0 10px;">
+                                <div style="width:50px; height:50px; border-radius:50%; background:var(--secondary); 
+                                            display:flex; align-items:center; justify-content:center; margin:0 auto;">
+                                    4
+                                </div>
+                                <p style="text-align:center; margin:5px 0 0; font-size:0.8em;">Monetizar</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top:50px; font-size:0.8em;">
+                        <p>Las plataformas utilizan técnicas basadas en psicología del comportamiento para maximizar el tiempo que pasas en ellas y los datos que generas.</p>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    // Botones interactivos
+    document.getElementById('exploreBtn')?.addEventListener('click', function() {
+        alert('Explorando las profundidades filosóficas de la privacidad digital...');
+    });
+
+    document.getElementById('compareBtn')?.addEventListener('click', function() {
+        alert('Contrastando las visiones de Kant (sujeto trascendental) y Nietzsche (crítica al yo racional)...');
+    });
+
+    document.getElementById('solutionsBtn')?.addEventListener('click', function() {
+        alert('Explorando soluciones: regulación, diseño ético, alfabetización digital y nuevas formas de resistencia...');
+    });
+</script>
+</body> 
 </html>
