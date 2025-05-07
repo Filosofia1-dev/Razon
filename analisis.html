@@ -106,7 +106,6 @@
             overflow: hidden;
             border: 2px solid var(--accent);
             box-shadow: 0 0 30px rgba(123, 45, 255, 0.3);
-            position: relative;
         }
         
         .symbol-grid {
@@ -171,37 +170,6 @@
             box-shadow: 0 0 25px rgba(123, 45, 255, 0.8);
         }
         
-        .file-input-container {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 100;
-            background: rgba(10, 10, 30, 0.8);
-            padding: 5px;
-            border-radius: 5px;
-            border: 1px solid var(--primary);
-        }
-        
-        .file-input-label {
-            display: block;
-            padding: 5px 10px;
-            background: var(--accent);
-            color: white;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        
-        .file-input-label:hover {
-            background: var(--secondary);
-        }
-        
-        .file-input {
-            display: none;
-        }
-        
         @media (max-width: 768px) {
             h1 {
                 font-size: 2.2rem;
@@ -229,10 +197,7 @@
                 <div class="symbol-card">
                     <h3>👁️ El Ojo Digital</h3>
                     <div class="model-container" id="eyeModel">
-                        <div class="file-input-container">
-                            <label for="eyeUpload" class="file-input-label">Cargar .glb</label>
-                            <input type="file" id="eyeUpload" class="file-input" accept=".glb">
-                        </div>
+                        <!-- Modelo 3D del ojo de vigilancia -->
                     </div>
                     <p>Representa la vigilancia constante y omnipresente en la era digital. Este símbolo encarna la mirada incesante de los sistemas de control, desde cámaras de seguridad hasta algoritmos que rastrean nuestra actividad en línea.</p>
                     <div class="quote">
@@ -244,10 +209,7 @@
                 <div class="symbol-card">
                     <h3>🧠 Cerebro con Circuitos</h3>
                     <div class="model-container" id="brainModel">
-                        <div class="file-input-container">
-                            <label for="brainUpload" class="file-input-label">Cargar .glb</label>
-                            <input type="file" id="brainUpload" class="file-input" accept=".glb">
-                        </div>
+                        <!-- Modelo 3D del cerebro digital -->
                     </div>
                     <p>Simboliza la intersección entre mente humana y tecnología. Representa cómo los sistemas de vigilancia no solo monitorean acciones, sino que buscan predecir y potencialmente influir en nuestros pensamientos y decisiones.</p>
                     <div class="quote">
@@ -318,311 +280,17 @@
 
     <script>
         // Configuración de modelos 3D
-        let eyeScene, eyeCamera, eyeRenderer, eyeControls, eyeModel;
-        let brainScene, brainCamera, brainRenderer, brainControls, brainModel;
-        
-        // Inicializar cargador GLTF
         const loader = new THREE.GLTFLoader();
         
-        function initEyeModel() {
-            const container = document.getElementById('eyeModel');
-            const width = container.clientWidth;
-            const height = container.clientHeight;
-            
-            // Escena
-            eyeScene = new THREE.Scene();
-            eyeScene.background = new THREE.Color(0x0a0a20);
-            
-            // Cámara
-            eyeCamera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-            eyeCamera.position.z = 5;
-            
-            // Renderer
-            eyeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            eyeRenderer.setSize(width, height);
-            container.insertBefore(eyeRenderer.domElement, container.firstChild);
-            
-            // Controles
-            eyeControls = new THREE.OrbitControls(eyeCamera, eyeRenderer.domElement);
-            eyeControls.enableDamping = true;
-            eyeControls.dampingFactor = 0.05;
-            
-            // Luz
-            const light = new THREE.PointLight(0xffffff, 1, 100);
-            light.position.set(5, 5, 5);
-            eyeScene.add(light);
-            
-            const ambientLight = new THREE.AmbientLight(0x404040);
-            eyeScene.add(ambientLight);
-            
-            // Objeto 3D - Ojo digital (por defecto)
-            createDefaultEye();
-            
-            // Configurar carga de archivo
-            document.getElementById('eyeUpload').addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const url = URL.createObjectURL(file);
-                    loadGLBModel(url, eyeScene, function(gltf) {
-                        // Eliminar modelo anterior si existe
-                        if (eyeModel) {
-                            eyeScene.remove(eyeModel);
-                        }
-                        
-                        eyeModel = gltf.scene;
-                        eyeScene.add(gltf.scene);
-                        
-                        // Ajustar la cámara al modelo
-                        const box = new THREE.Box3().setFromObject(gltf.scene);
-                        const size = box.getSize(new THREE.Vector3()).length();
-                        const center = box.getCenter(new THREE.Vector3());
-                        
-                        eyeCamera.position.copy(center);
-                        eyeCamera.position.z += size * 1.5;
-                        eyeCamera.lookAt(center);
-                        
-                        eyeControls.target.copy(center);
-                        eyeControls.update();
-                    });
-                }
-            });
-            
-            // Animación
-            function animate() {
-                requestAnimationFrame(animate);
-                
-                if (eyeModel) {
-                    eyeModel.rotation.y += 0.005;
-                }
-                
-                eyeControls.update();
-                eyeRenderer.render(eyeScene, eyeCamera);
-            }
-            
-            animate();
-            
-            // Redimensionamiento
-            window.addEventListener('resize', function() {
-                eyeCamera.aspect = container.clientWidth / container.clientHeight;
-                eyeCamera.updateProjectionMatrix();
-                eyeRenderer.setSize(container.clientWidth, container.clientHeight);
-            });
-        }
+        // 1. Configura aquí las rutas de tus modelos GLB
+        const MODEL_PATHS = {
+            eye: '',    // Ruta al archivo .glb del ojo
+            brain: '',  // Ruta al archivo .glb del cerebro
+            panopticon: '' // Ruta al archivo .glb del panóptico
+        };
         
-        function createDefaultEye() {
-            const group = new THREE.Group();
-            
-            // Esfera del ojo
-            const eyeGeometry = new THREE.SphereGeometry(1.5, 32, 32);
-            const eyeMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0x00f7ff,
-                wireframe: true,
-                transparent: true,
-                opacity: 0.7
-            });
-            const eye = new THREE.Mesh(eyeGeometry, eyeMaterial);
-            group.add(eye);
-            
-            // Iris/pupila
-            const irisGeometry = new THREE.SphereGeometry(0.5, 32, 32);
-            const irisMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0x7b2dff,
-                emissive: 0xff00aa,
-                emissiveIntensity: 0.5
-            });
-            const iris = new THREE.Mesh(irisGeometry, irisMaterial);
-            iris.position.z = 1.5;
-            group.add(iris);
-            
-            // Líneas de conexión (como cables)
-            const lineGeometry = new THREE.BufferGeometry();
-            const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00f7ff });
-            
-            for(let i = 0; i < 8; i++) {
-                const angle = (i / 8) * Math.PI * 2;
-                const x = Math.cos(angle) * 2;
-                const y = Math.sin(angle) * 2;
-                
-                const positions = new Float32Array([
-                    0, 0, 0, x, y, -3
-                ]);
-                lineGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-                const line = new THREE.Line(lineGeometry, lineMaterial);
-                group.add(line);
-            }
-            
-            eyeScene.add(group);
-            eyeModel = group;
-        }
-        
-        function initBrainModel() {
-            const container = document.getElementById('brainModel');
-            const width = container.clientWidth;
-            const height = container.clientHeight;
-            
-            // Escena
-            brainScene = new THREE.Scene();
-            brainScene.background = new THREE.Color(0x0a0a20);
-            
-            // Cámara
-            brainCamera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-            brainCamera.position.z = 5;
-            
-            // Renderer
-            brainRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            brainRenderer.setSize(width, height);
-            container.insertBefore(brainRenderer.domElement, container.firstChild);
-            
-            // Controles
-            brainControls = new THREE.OrbitControls(brainCamera, brainRenderer.domElement);
-            brainControls.enableDamping = true;
-            brainControls.dampingFactor = 0.05;
-            
-            // Luz
-            const light = new THREE.PointLight(0xffffff, 1, 100);
-            light.position.set(5, 5, 5);
-            brainScene.add(light);
-            
-            const ambientLight = new THREE.AmbientLight(0x404040);
-            brainScene.add(ambientLight);
-            
-            // Objeto 3D - Cerebro digital (por defecto)
-            createDefaultBrain();
-            
-            // Configurar carga de archivo
-            document.getElementById('brainUpload').addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const url = URL.createObjectURL(file);
-                    loadGLBModel(url, brainScene, function(gltf) {
-                        // Eliminar modelo anterior si existe
-                        if (brainModel) {
-                            brainScene.remove(brainModel);
-                        }
-                        
-                        brainModel = gltf.scene;
-                        brainScene.add(gltf.scene);
-                        
-                        // Ajustar la cámara al modelo
-                        const box = new THREE.Box3().setFromObject(gltf.scene);
-                        const size = box.getSize(new THREE.Vector3()).length();
-                        const center = box.getCenter(new THREE.Vector3());
-                        
-                        brainCamera.position.copy(center);
-                        brainCamera.position.z += size * 1.5;
-                        brainCamera.lookAt(center);
-                        
-                        brainControls.target.copy(center);
-                        brainControls.update();
-                    });
-                }
-            });
-            
-            // Animación
-            function animate() {
-                requestAnimationFrame(animate);
-                
-                if (brainModel) {
-                    brainModel.rotation.y += 0.003;
-                }
-                
-                brainControls.update();
-                brainRenderer.render(brainScene, brainCamera);
-            }
-            
-            animate();
-            
-            // Redimensionamiento
-            window.addEventListener('resize', function() {
-                brainCamera.aspect = container.clientWidth / container.clientHeight;
-                brainCamera.updateProjectionMatrix();
-                brainRenderer.setSize(container.clientWidth, container.clientHeight);
-            });
-        }
-        
-        function createDefaultBrain() {
-            const group = new THREE.Group();
-            
-            // Cerebro (forma simplificada)
-            const brainGeometry = new THREE.SphereGeometry(1.3, 32, 32);
-            brainGeometry.scale(0.8, 1.2, 0.7);
-            const brainMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0xff00aa,
-                wireframe: true,
-                transparent: true,
-                opacity: 0.6
-            });
-            const brain = new THREE.Mesh(brainGeometry, brainMaterial);
-            group.add(brain);
-            
-            // Circuitos (partículas)
-            const particlesGeometry = new THREE.BufferGeometry();
-            const particlesCount = 500;
-            const posArray = new Float32Array(particlesCount * 3);
-            
-            for(let i = 0; i < particlesCount * 3; i++) {
-                posArray[i] = (Math.random() - 0.5) * 3;
-            }
-            
-            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-            const particlesMaterial = new THREE.PointsMaterial({
-                color: 0x00f7ff,
-                size: 0.05,
-                transparent: true,
-                opacity: 0.8
-            });
-            const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-            group.add(particles);
-            
-            // Conexiones neuronales
-            const connectionsGeometry = new THREE.BufferGeometry();
-            const connectionsMaterial = new THREE.LineBasicMaterial({ 
-                color: 0x7b2dff,
-                transparent: true,
-                opacity: 0.5
-            });
-            
-            const connectionsPositions = new Float32Array(particlesCount * 3 * 2);
-            for(let i = 0; i < particlesCount; i++) {
-                const i3 = i * 3;
-                const j = Math.floor(Math.random() * particlesCount);
-                const j3 = j * 3;
-                
-                if(Math.random() > 0.7) {
-                    connectionsPositions[i3 * 2] = posArray[i3];
-                    connectionsPositions[i3 * 2 + 1] = posArray[i3 + 1];
-                    connectionsPositions[i3 * 2 + 2] = posArray[i3 + 2];
-                    
-                    connectionsPositions[i3 * 2 + 3] = posArray[j3];
-                    connectionsPositions[i3 * 2 + 4] = posArray[j3 + 1];
-                    connectionsPositions[i3 * 2 + 5] = posArray[j3 + 2];
-                }
-            }
-            
-            connectionsGeometry.setAttribute('position', new THREE.BufferAttribute(connectionsPositions, 3));
-            const connections = new THREE.LineSegments(connectionsGeometry, connectionsMaterial);
-            group.add(connections);
-            
-            brainScene.add(group);
-            brainModel = group;
-        }
-        
-        function loadGLBModel(url, scene, callback) {
-            loader.load(
-                url,
-                function(gltf) {
-                    callback(gltf);
-                },
-                undefined,
-                function(error) {
-                    console.error('Error al cargar el modelo GLB:', error);
-                    alert('Error al cargar el modelo. Asegúrate de que es un archivo .glb válido.');
-                }
-            );
-        }
-        
-        function initPanopticonModel() {
-            const container = document.getElementById('panopticonModel');
+        function initModel(containerId, modelPath) {
+            const container = document.getElementById(containerId);
             const width = container.clientWidth;
             const height = container.clientHeight;
             
@@ -632,7 +300,7 @@
             
             // Cámara
             const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-            camera.position.z = 10;
+            camera.position.z = 5;
             
             // Renderer
             const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -652,99 +320,38 @@
             const ambientLight = new THREE.AmbientLight(0x404040);
             scene.add(ambientLight);
             
-            // Objeto 3D - Datóptico moderno
-            const group = new THREE.Group();
-            
-            // Torre central (servidores)
-            const towerGeometry = new THREE.CylinderGeometry(0.5, 0.3, 3, 6);
-            const towerMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0x7b2dff,
-                wireframe: true
-            });
-            const tower = new THREE.Mesh(towerGeometry, towerMaterial);
-            group.add(tower);
-            
-            // Esfera de datos (nube)
-            const cloudGeometry = new THREE.SphereGeometry(2, 16, 16);
-            const cloudMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0x00f7ff,
-                wireframe: true,
-                transparent: true,
-                opacity: 0.3
-            });
-            const cloud = new THREE.Mesh(cloudGeometry, cloudMaterial);
-            cloud.position.y = 1;
-            group.add(cloud);
-            
-            // Líneas de datos
-            const linesGeometry = new THREE.BufferGeometry();
-            const linesMaterial = new THREE.LineBasicMaterial({ color: 0xff00aa });
-            
-            const linesPositions = new Float32Array(24 * 3 * 2);
-            for(let i = 0; i < 24; i++) {
-                const angle = (i / 24) * Math.PI * 2;
-                const x = Math.cos(angle) * 3;
-                const z = Math.sin(angle) * 3;
-                
-                linesPositions[i * 6] = x;
-                linesPositions[i * 6 + 1] = -1;
-                linesPositions[i * 6 + 2] = z;
-                
-                linesPositions[i * 6 + 3] = 0;
-                linesPositions[i * 6 + 4] = 1.5;
-                linesPositions[i * 6 + 5] = 0;
+            // Cargar modelo GLB si se especificó una ruta
+            if (modelPath) {
+                loader.load(
+                    modelPath,
+                    function(gltf) {
+                        scene.add(gltf.scene);
+                        
+                        // Ajustar la cámara al modelo
+                        const box = new THREE.Box3().setFromObject(gltf.scene);
+                        const size = box.getSize(new THREE.Vector3()).length();
+                        const center = box.getCenter(new THREE.Vector3());
+                        
+                        camera.position.copy(center);
+                        camera.position.z += size * 1.5;
+                        camera.lookAt(center);
+                        
+                        controls.target.copy(center);
+                        controls.update();
+                    },
+                    undefined,
+                    function(error) {
+                        console.error('Error al cargar el modelo:', error);
+                        createDefaultModel(scene, containerId);
+                    }
+                );
+            } else {
+                createDefaultModel(scene, containerId);
             }
-            
-            linesGeometry.setAttribute('position', new THREE.BufferAttribute(linesPositions, 3));
-            const lines = new THREE.LineSegments(linesGeometry, linesMaterial);
-            group.add(lines);
-            
-            // Partículas de datos
-            const particlesGeometry = new THREE.BufferGeometry();
-            const particlesCount = 300;
-            const particlesPositions = new Float32Array(particlesCount * 3);
-            
-            for(let i = 0; i < particlesCount * 3; i++) {
-                particlesPositions[i] = (Math.random() - 0.5) * 5;
-            }
-            
-            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(particlesPositions, 3));
-            const particlesMaterial = new THREE.PointsMaterial({
-                color: 0xffffff,
-                size: 0.05,
-                transparent: true,
-                opacity: 0.8
-            });
-            const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-            group.add(particles);
-            
-            scene.add(group);
             
             // Animación
             function animate() {
                 requestAnimationFrame(animate);
-                
-                group.rotation.y += 0.002;
-                cloud.rotation.x += 0.001;
-                particles.rotation.z += 0.001;
-                
-                // Mover partículas
-                const positions = particlesGeometry.attributes.position.array;
-                for(let i = 0; i < particlesCount; i++) {
-                    positions[i * 3] += (Math.random() - 0.5) * 0.02;
-                    positions[i * 3 + 1] += (Math.random() - 0.5) * 0.02;
-                    positions[i * 3 + 2] += (Math.random() - 0.5) * 0.02;
-                    
-                    // Mantener las partículas dentro de un rango
-                    if(positions[i * 3] > 3) positions[i * 3] = -3;
-                    if(positions[i * 3] < -3) positions[i * 3] = 3;
-                    if(positions[i * 3 + 1] > 3) positions[i * 3 + 1] = -3;
-                    if(positions[i * 3 + 1] < -3) positions[i * 3 + 1] = 3;
-                    if(positions[i * 3 + 2] > 3) positions[i * 3 + 2] = -3;
-                    if(positions[i * 3 + 2] < -3) positions[i * 3 + 2] = 3;
-                }
-                particlesGeometry.attributes.position.needsUpdate = true;
-                
                 controls.update();
                 renderer.render(scene, camera);
             }
@@ -759,11 +366,99 @@
             });
         }
         
+        function createDefaultModel(scene, containerId) {
+            let geometry, material, mesh;
+            
+            if (containerId === 'eyeModel') {
+                // Modelo predeterminado del ojo
+                geometry = new THREE.SphereGeometry(1.5, 32, 32);
+                material = new THREE.MeshPhongMaterial({ 
+                    color: 0x00f7ff,
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.7
+                });
+                mesh = new THREE.Mesh(geometry, material);
+                scene.add(mesh);
+                
+                // Iris
+                const irisGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+                const irisMaterial = new THREE.MeshPhongMaterial({ 
+                    color: 0x7b2dff,
+                    emissive: 0xff00aa,
+                    emissiveIntensity: 0.5
+                });
+                const iris = new THREE.Mesh(irisGeometry, irisMaterial);
+                iris.position.z = 1.5;
+                scene.add(iris);
+                
+            } else if (containerId === 'brainModel') {
+                // Modelo predeterminado del cerebro
+                geometry = new THREE.SphereGeometry(1.3, 32, 32);
+                geometry.scale(0.8, 1.2, 0.7);
+                material = new THREE.MeshPhongMaterial({ 
+                    color: 0xff00aa,
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.6
+                });
+                mesh = new THREE.Mesh(geometry, material);
+                scene.add(mesh);
+                
+                // Partículas
+                const particlesGeometry = new THREE.BufferGeometry();
+                const particlesCount = 500;
+                const posArray = new Float32Array(particlesCount * 3);
+                
+                for(let i = 0; i < particlesCount * 3; i++) {
+                    posArray[i] = (Math.random() - 0.5) * 3;
+                }
+                
+                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+                const particlesMaterial = new THREE.PointsMaterial({
+                    color: 0x00f7ff,
+                    size: 0.05,
+                    transparent: true,
+                    opacity: 0.8
+                });
+                const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+                scene.add(particles);
+                
+            } else if (containerId === 'panopticonModel') {
+                // Modelo predeterminado del panóptico
+                const group = new THREE.Group();
+                
+                // Torre central
+                const towerGeometry = new THREE.CylinderGeometry(0.5, 0.3, 3, 6);
+                const towerMaterial = new THREE.MeshPhongMaterial({ 
+                    color: 0x7b2dff,
+                    wireframe: true
+                });
+                const tower = new THREE.Mesh(towerGeometry, towerMaterial);
+                group.add(tower);
+                
+                // Esfera de datos
+                const cloudGeometry = new THREE.SphereGeometry(2, 16, 16);
+                const cloudMaterial = new THREE.MeshPhongMaterial({ 
+                    color: 0x00f7ff,
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.3
+                });
+                const cloud = new THREE.Mesh(cloudGeometry, cloudMaterial);
+                cloud.position.y = 1;
+                group.add(cloud);
+                
+                scene.add(group);
+            }
+        }
+        
         // Inicializar modelos cuando el DOM esté listo
         document.addEventListener('DOMContentLoaded', function() {
-            initEyeModel();
-            initBrainModel();
-            initPanopticonModel();
+            // 2. Inicializa los modelos con las rutas especificadas
+            initModel('eyeModel', MODEL_PATHS.eye);
+            initModel('brainModel', MODEL_PATHS.brain);
+            initModel('panopticonModel', MODEL_PATHS.panopticon);
         });
     </script>
 </body>
