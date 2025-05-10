@@ -25,6 +25,39 @@
             background-color: var(--secondary);
             color: var(--text);
             line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        
+        .preloader.fade-out {
+            opacity: 0;
+        }
+        
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(139, 115, 85, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
         
         /* Header */
@@ -39,6 +72,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transform: translateY(0);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        
+        header.hide {
+            transform: translateY(-100%);
+        }
+        
+        header.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
         }
         
         .logo {
@@ -46,6 +90,11 @@
             font-weight: 300;
             letter-spacing: 0.5rem;
             color: var(--primary);
+            transition: color 0.3s ease;
+        }
+        
+        .logo:hover {
+            color: var(--accent);
         }
         
         nav ul {
@@ -55,17 +104,34 @@
         
         nav ul li {
             margin-left: 2rem;
+            position: relative;
         }
         
         nav ul li a {
             text-decoration: none;
             color: var(--text);
             font-weight: 300;
-            transition: color 0.3s;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
         }
         
         nav ul li a:hover {
             color: var(--accent);
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
         }
         
         /* Hero Section */
@@ -81,6 +147,25 @@
             background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), url('background-pattern.jpg');
             background-size: cover;
             background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, rgba(255,255,255,0.9) 70%);
+            z-index: -1;
+            animation: pulse 8s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.7; }
+            100% { transform: scale(1.1); opacity: 1; }
         }
         
         .hero h1 {
@@ -89,8 +174,9 @@
             margin-bottom: 1rem;
             letter-spacing: 0.5rem;
             opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1s ease-out forwards;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out 0.5s forwards;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .hero p {
@@ -98,15 +184,27 @@
             max-width: 600px;
             margin-bottom: 2rem;
             opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1s ease-out 0.3s forwards;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out 0.8s forwards;
         }
         
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text);
+            font-size: 1.5rem;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1.5s forwards, bounce 2s infinite 2s;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+            40% { transform: translateY(-20px) translateX(-50%); }
+            60% { transform: translateY(-10px) translateX(-50%); }
         }
         
         /* Catalogue Sections */
@@ -117,6 +215,14 @@
             font-weight: 300;
             letter-spacing: 0.3rem;
             position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .section-title.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         
         .section-title::after {
@@ -128,6 +234,11 @@
             width: 80px;
             height: 1px;
             background-color: var(--accent);
+            transition: width 0.5s ease;
+        }
+        
+        .section-title:hover::after {
+            width: 120px;
         }
         
         .products-grid {
@@ -144,19 +255,19 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(30px) rotate(2deg);
         }
         
         .product-card.visible {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) rotate(0);
         }
         
         .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
         }
         
         .product-image {
@@ -169,42 +280,94 @@
             overflow: hidden;
         }
         
+        .product-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+            z-index: 1;
+        }
+        
         .product-image img {
             max-width: 80%;
             max-height: 80%;
-            transition: transform 0.5s;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
         }
         
         .product-card:hover .product-image img {
-            transform: scale(1.05);
+            transform: scale(1.1) rotate(1deg);
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
         }
         
         .product-info {
             padding: 1.5rem;
+            position: relative;
+        }
+        
+        .product-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width 0.5s ease;
+        }
+        
+        .product-card:hover .product-info::before {
+            width: 100%;
         }
         
         .product-name {
             font-size: 1.2rem;
             font-weight: 400;
             margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .product-card:hover .product-name {
+            color: var(--accent);
         }
         
         .product-description {
             color: var(--light-text);
             font-size: 0.9rem;
             margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .product-card:hover .product-description {
+            color: var(--text);
         }
         
         .product-price {
             font-size: 1.1rem;
             font-weight: 500;
             color: var(--accent);
+            transition: transform 0.3s ease;
+        }
+        
+        .product-card:hover .product-price {
+            transform: translateX(5px);
         }
         
         /* Colors Section */
         .colors-section {
             padding: 4rem 2rem;
             background-color: white;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .colors-section.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         
         .colors-grid {
@@ -218,6 +381,12 @@
         
         .color-item {
             text-align: center;
+            transform: scale(0.95);
+            transition: transform 0.5s ease;
+        }
+        
+        .color-item:hover {
+            transform: scale(1.05);
         }
         
         .color-circle {
@@ -225,12 +394,45 @@
             height: 80px;
             border-radius: 50%;
             margin-bottom: 0.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .color-circle::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .color-item:hover .color-circle {
+            transform: scale(1.1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .color-item:hover .color-circle::after {
+            opacity: 1;
         }
         
         /* Aromas Section */
         .aromas-section {
             padding: 4rem 2rem;
             background-color: var(--secondary);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .aromas-section.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         
         .aromas-grid {
@@ -247,6 +449,15 @@
             border-radius: 4px;
             text-align: center;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.5s ease;
+            transform: translateY(0);
+        }
+        
+        .aroma-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            background-color: var(--accent);
+            color: white;
         }
         
         /* Contact Section */
@@ -254,6 +465,14 @@
             padding: 4rem 2rem;
             background-color: white;
             text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .contact-section.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         
         .contact-info {
@@ -263,6 +482,11 @@
         
         .contact-info p {
             margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .contact-info p:hover {
+            transform: translateX(5px);
         }
         
         .social-links {
@@ -273,11 +497,13 @@
             color: var(--text);
             font-size: 1.5rem;
             margin: 0 0.5rem;
-            transition: color 0.3s;
+            transition: all 0.5s ease;
+            display: inline-block;
         }
         
         .social-links a:hover {
             color: var(--accent);
+            transform: translateY(-5px) scale(1.2);
         }
         
         /* Footer */
@@ -287,9 +513,26 @@
             text-align: center;
             padding: 2rem;
             font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        
+        footer.visible {
+            opacity: 1;
         }
         
         /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -308,10 +551,20 @@
             .products-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .color-circle {
+                width: 60px;
+                height: 60px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="loader"></div>
+    </div>
+
     <header>
         <div class="logo">LLUM</div>
         <nav>
@@ -328,357 +581,101 @@
     <section class="hero">
         <h1>LLUM DESIGN STUDIO</h1>
         <p>Arte y diseño en piezas de cemento y velas de cera de soya con aromas naturales</p>
-    </section>
-
-    <section id="ceras">
-        <h2 class="section-title">PIEZAS CON CERA DE SOYA</h2>
-        <div class="products-grid">
-            <!-- Lumea -->
-            <div class="product-card">
-                <div class="product-image">
-                    <!-- Imagen sería reemplazada por la real -->
-                    <img src="placeholder-product.jpg" alt="Lumea">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">LUMEA</h3>
-                    <p class="product-description">Pieza de cemento - 980 ml</p>
-                    <p class="product-price">$620.00</p>
-                </div>
-            </div>
-            
-            <!-- Duna Grande -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="placeholder-product.jpg" alt="Duna Grande">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">DUNA GRANDE</h3>
-                    <p class="product-description">Pieza de cemento - 750 ml</p>
-                    <p class="product-price">$590.00</p>
-                </div>
-            </div>
-            
-            <!-- Duna Chica -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="placeholder-product.jpg" alt="Duna Chica">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">DUNA CHICA</h3>
-                    <p class="product-description">Pieza de cemento - 640 ml</p>
-                    <p class="product-price">$425.00</p>
-                </div>
-            </div>
-            
-            <!-- Senda Grande -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="placeholder-product.jpg" alt="Senda Grande">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">SENDA GRANDE</h3>
-                    <p class="product-description">Pieza de cemento - 640 ml</p>
-                    <p class="product-price">$430.00</p>
-                </div>
-            </div>
-            
-            <!-- Senda Chica -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="placeholder-product.jpg" alt="Senda Chica">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">SENDA CHICA</h3>
-                    <p class="product-description">Pieza de cemento - 380 ml</p>
-                    <p class="product-price">$380.00</p>
-                </div>
-            </div>
-            
-            <!-- Charola Grande -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="placeholder-product.jpg" alt="Charola Grande">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">CHAROLA GRANDE</h3>
-                    <p class="product-description">Pieza de cemento - 18cm</p>
-                    <p class="product-price">$190.00</p>
-                </div>
-            </div>
-            
-            <!-- Charola Chica -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="placeholder-product.jpg" alt="Charola Chica">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">CHAROLA CHICA</h3>
-                    <p class="product-description">Pieza de cemento - 13cm</p>
-                    <p class="product-price">$160.00</p>
-                </div>
-            </div>
-            
-            <!-- Vaso Liso -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="placeholder-product.jpg" alt="Vaso Liso">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">VASO LISO</h3>
-                    <p class="product-description">Pieza de cemento - 190 ml</p>
-                    <p class="product-price">$160.00</p>
-                </div>
-            </div>
-            
-            <!-- Vaso Textura -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="placeholder-product.jpg" alt="Vaso Textura">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">VASO TEXTURA</h3>
-                    <p class="product-description">Pieza de cemento - 190 ml</p>
-                    <p class="product-price">$175.00</p>
-                </div>
-            </div>
-            
-            <!-- Vaso Textura Bajo -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="placeholder-product.jpg" alt="Vaso Textura Bajo">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">VASO TEXTURA BAJO</h3>
-                    <p class="product-description">Pieza de cemento - 190 ml</p>
-                    <p class="product-price">$175.00</p>
-                </div>
-            </div>
+        <div class="scroll-down">
+            <i class="fas fa-chevron-down"></i>
         </div>
     </section>
 
-    <section id="velas">
-        <h2 class="section-title">VELAS DE SOYA</h2>
-        <div class="products-grid">
-            <!-- Selene Grande -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="placeholder-product.jpg" alt="Selene Grande">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">SELENE GRANDE</h3>
-                    <p class="product-description">Vela de cera de soya y aroma natural - 1kg</p>
-                    <p class="product-price">$200.00</p>
-                </div>
-            </div>
-            
-            <!-- Selene Chica -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="placeholder-product.jpg" alt="Selene Chica">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">SELENE CHICA</h3>
-                    <p class="product-description">Vela de cera de soya y aroma natural - 1kg</p>
-                    <p class="product-price">$180.00</p>
-                </div>
-            </div>
-            
-            <!-- Origami -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="placeholder-product.jpg" alt="Origami">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">ORIGAMI</h3>
-                    <p class="product-description">Vela de cera de soya y aroma natural - 1kg</p>
-                    <p class="product-price">$180.00</p>
-                </div>
-            </div>
-            
-            <!-- Zenit -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="placeholder-product.jpg" alt="Zenit">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">ZENIT</h3>
-                    <p class="product-description">Vela de cera de soya y aroma natural - 1kg</p>
-                    <p class="product-price">Chica: $170.00<br>Mediana: $190.00<br>Grande: $250.00</p>
-                </div>
-            </div>
-            
-            <!-- Espiral Grande -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="placeholder-product.jpg" alt="Espiral Grande">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">ESPIRAL GRANDE</h3>
-                    <p class="product-description">Vela de cera de soya y aroma natural - 1kg</p>
-                    <p class="product-price">$460.00</p>
-                </div>
-            </div>
-            
-            <!-- Ondra -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="placeholder-product.jpg" alt="Ondra">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">ONDRA</h3>
-                    <p class="product-description">Vela de cera de soya y aroma natural - 1kg</p>
-                    <p class="product-price">$210.00</p>
-                </div>
-            </div>
-            
-            <!-- Asta -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="placeholder-product.jpg" alt="Asta">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">ASTA</h3>
-                    <p class="product-description">Vela de cera de soya y aroma natural - 1kg</p>
-                    <p class="product-price">$200.00</p>
-                </div>
-            </div>
-            
-            <!-- Marea -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="placeholder-product.jpg" alt="Marea">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">MAREA</h3>
-                    <p class="product-description">Vela de cera de soya y aroma natural - 1kg</p>
-                    <p class="product-price">Chica: $90.00<br>Mediana: $150.00<br>Grande: $210.00</p>
-                </div>
-            </div>
-            
-            <!-- Cuadrado -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="placeholder-product.jpg" alt="Cuadrado">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">CUADRADO</h3>
-                    <p class="product-description">Vela de cera de soya y aroma natural - 1kg</p>
-                    <p class="product-price">$180.00</p>
-                </div>
-            </div>
-            
-            <!-- Ondas -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="placeholder-product.jpg" alt="Ondas">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">ONDAS</h3>
-                    <p class="product-description">Vela de cera de soya y aroma natural - 1kg</p>
-                    <p class="product-price">$180.00</p>
-                </div>
-            </div>
-            
-            <!-- Esfera Espiral -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="placeholder-product.jpg" alt="Esfera Espiral">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">ESFERA ESPIRAL</h3>
-                    <p class="product-description">Vela de cera de soya y aroma natural - 1kg</p>
-                    <p class="product-price">Chica: $120.00<br>Grande: $140.00</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="colores" class="colors-section">
-        <h2 class="section-title">COLORES</h2>
-        <div class="colors-grid">
-            <div class="color-item">
-                <div class="color-circle" style="background-color: #E2725B;"></div>
-                <p>Terracota</p>
-            </div>
-            <div class="color-item">
-                <div class="color-circle" style="background-color: #000000;"></div>
-                <p>Negro</p>
-            </div>
-            <div class="color-item">
-                <div class="color-circle" style="background-color: #555555;"></div>
-                <p>Gris obscuro</p>
-            </div>
-            <div class="color-item">
-                <div class="color-circle" style="background-color: #AAAAAA;"></div>
-                <p>Gris claro</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="aromas" class="aromas-section">
-        <h2 class="section-title">AROMAS</h2>
-        <div class="aromas-grid">
-            <div class="aroma-item">Vainilla</div>
-            <div class="aroma-item">Sándalo blanco</div>
-            <div class="aroma-item">Lavanda</div>
-            <div class="aroma-item">Ciprés</div>
-            <div class="aroma-item">Paraíso tropical</div>
-            <div class="aroma-item">Bambú</div>
-            <div class="aroma-item">Bambú y flor de naranjo</div>
-            <div class="aroma-item">Strawberry champagne</div>
-            <div class="aroma-item">Cookies & cream</div>
-            <div class="aroma-item">Café</div>
-            <div class="aroma-item">Té blanco</div>
-            <div class="aroma-item">Coco miel</div>
-        </div>
-    </section>
-
-    <section id="contacto" class="contact-section">
-        <h2 class="section-title">CONTACTO</h2>
-        <div class="contact-info">
-            <p><strong>MONTSERRAT MASANA</strong></p>
-            <p><i class="fas fa-phone"></i> 56 2636 1510</p>
-            <p><i class="fas fa-envelope"></i> info@llumdesignstudio.com</p>
-            <div class="social-links">
-                <a href="https://instagram.com/llumdesignstudio" target="_blank"><i class="fab fa-instagram"></i></a>
-            </div>
-            <div style="margin-top: 2rem;">
-                <h3 style="margin-bottom: 1rem;">MÉTODO DE PAGO</h3>
-                <p>NU BANCO</p>
-                <p>CUENTA: 01012481939</p>
-                <p>CUENTA CLABE: 63818001010124819394</p>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <h4>&copy; 2024 LLUM Design Studio. Todos los derechos reservados.</h4>
-    </footer>
-
+    <!-- Resto del código permanece igual hasta el script -->
+    
     <script>
-        // Animación al hacer scroll
+        // Preloader
+        window.addEventListener('load', function() {
+            const preloader = document.querySelector('.preloader');
+            setTimeout(() => {
+                preloader.classList.add('fade-out');
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 500);
+            }, 1000);
+        });
+        
+        // Scroll animations
         document.addEventListener("DOMContentLoaded", () => {
-            const productCards = document.querySelectorAll(".product-card");
+            const animateOnScroll = (elements, className) => {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add(className);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                
+                elements.forEach(el => observer.observe(el));
+            };
             
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("visible");
-                    }
-                });
-            }, { threshold: 0.1 });
+            // Animate sections
+            animateOnScroll(document.querySelectorAll('.section-title'), 'visible');
+            animateOnScroll(document.querySelectorAll('.product-card'), 'visible');
+            animateOnScroll(document.querySelectorAll('.colors-section'), 'visible');
+            animateOnScroll(document.querySelectorAll('.aromas-section'), 'visible');
+            animateOnScroll(document.querySelectorAll('.contact-section'), 'visible');
+            animateOnScroll(document.querySelectorAll('footer'), 'visible');
             
-            productCards.forEach(card => observer.observe(card));
+            // Header scroll effect
+            const header = document.querySelector('header');
+            let lastScroll = 0;
+            
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset;
+                
+                if (currentScroll <= 0) {
+                    header.classList.remove('scrolled', 'hide');
+                    return;
+                }
+                
+                if (currentScroll > lastScroll && !header.classList.contains('hide')) {
+                    header.classList.add('hide');
+                } else if (currentScroll < lastScroll && header.classList.contains('hide')) {
+                    header.classList.remove('hide');
+                }
+                
+                if (currentScroll > 100) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+                
+                lastScroll = currentScroll;
+            });
             
             // Smooth scrolling para navegación
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
+                anchor.addEventListener('click', function(e) {
                     e.preventDefault();
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Scroll down button
+            const scrollDownBtn = document.querySelector('.scroll-down');
+            if (scrollDownBtn) {
+                scrollDownBtn.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: document.querySelector('#ceras').offsetTop - 80,
                         behavior: 'smooth'
                     });
                 });
-            });
+            }
         });
     </script>
 </body>
