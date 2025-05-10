@@ -1541,4 +1541,90 @@
             card.style.transform = 'rotateX(0) rotateY(0) scale(1)';
         });
     });
+</script><!-- Firebase Analytics para LLUM Design Studio - Script Completo -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
+
+<script>
+  // 1. Configuración de Firebase (REMPLAZA CON TUS DATOS)
+  const firebaseConfig = {
+  apiKey: "AIzaSyDmkLLpNh-FmRTzOw8GZ5-TFj7X2tTr8r4",
+  authDomain: "llumdesingstudio.firebaseapp.com",
+  projectId: "llumdesingstudio",
+  storageBucket: "llumdesingstudio.firebasestorage.app",
+  messagingSenderId: "1062895746466",
+  appId: "1:1062895746466:web:c5b2d2c529834642f1c6fb",
+  measurementId: "G-PGMH95R13B"
+  };
+
+  // 2. Inicialización
+  firebase.initializeApp(firebaseConfig);
+  const analytics = firebase.analytics();
+
+  // 3. Evento automático de vista de página
+  analytics.logEvent('page_view', {
+    page_title: document.title,
+    page_path: window.location.pathname
+  });
+
+  // 4. Eventos Personalizados
+  document.addEventListener('DOMContentLoaded', function() {
+    
+    // a. Clics en productos
+    document.querySelectorAll('.product-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const productName = card.querySelector('.product-name').textContent;
+        analytics.logEvent('select_product', {
+          item_name: productName,
+          category: card.closest('section')?.id || 'unknown' // ej: 'ceras' o 'velas'
+        });
+      });
+    });
+
+    // b. Clics en contacto (WhatsApp/email)
+    document.querySelectorAll('a[href*="whatsapp"], a[href*="mailto"]').forEach(link => {
+      link.addEventListener('click', () => {
+        analytics.logEvent('contact_click', {
+          method: link.href.includes('whatsapp') ? 'whatsapp' : 'email',
+          link_text: link.textContent.trim()
+        });
+      });
+    });
+
+    // c. Scroll en secciones importantes
+    const trackedSections = ['#ceras', '#velas', '#contacto'];
+    window.addEventListener('scroll', () => {
+      trackedSections.forEach(sectionId => {
+        const section = document.querySelector(sectionId);
+        if (isElementInViewport(section)) {
+          analytics.logEvent('view_section', {
+            section_name: sectionId.replace('#', '')
+          });
+        }
+      });
+    });
+
+    // d. Tiempo en página (30 segundos)
+    setTimeout(() => {
+      analytics.logEvent('time_on_page', {
+        duration: 30,
+        page: document.title
+      });
+    }, 30000);
+  });
+
+  // 5. Función de ayuda para detectar elementos visibles
+  function isElementInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+      rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.bottom >= 0
+    );
+  }
+
+  // 6. Verificación en consola (solo desarrollo)
+  if (window.location.hostname === 'localhost') {
+    console.log('Firebase Analytics configurado (modo desarrollo)');
+    analytics.setAnalyticsCollectionEnabled(false); // Desactiva en local
+  }
 </script></body> </html>
