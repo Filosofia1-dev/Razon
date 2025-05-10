@@ -3,240 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LLUM Design Studio - Catálogo Artesanal</title>
-    <link rel="icon" href="Logo.jpeg" type="image/jpeg">
+    <title>LLUM Design Studio - Arte en Cemento y Cera</title>
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* Variables CSS */
         :root {
-            --primary: #2a2a2a;
-            --secondary: #f8f5f2;
-            --accent: #9a7b5a;
-            --text: #333333;
-            --light-text: #777777;
-            --transition-base: 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --primary-color: #2a2a2a;
+            --secondary-color: #f8f5f2;
+            --accent-color: #9a7b5a;
+            --text-color: #333;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        
+
+        /* Reset y Estilos Base */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: var(--secondary);
-            color: var(--text);
-            line-height: 1.7;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.6;
             overflow-x: hidden;
-            scroll-behavior: smooth;
         }
-        
-        /* Preloader Sofisticado */
+
+        /* Preloader Mejorado */
         .preloader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--secondary);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.8s var(--transition-base);
+            background: var(--secondary-color);
+            display: grid;
+            place-items: center;
+            z-index: 1000;
+            transition: opacity 0.8s ease;
         }
-        
-        .preloader.fade-out {
+
+        .preloader.hidden {
             opacity: 0;
             pointer-events: none;
         }
-        
-        .loader-container {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            margin-bottom: 2rem;
-        }
-        
+
         .loader {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: 3px solid rgba(154, 123, 90, 0.1);
+            width: 48px;
+            height: 48px;
+            border: 3px solid var(--accent-color);
             border-radius: 50%;
-            border-top-color: var(--accent);
-            animation: spin 1.5s linear infinite;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
         }
-        
-        .loader:nth-child(2) {
-            width: 80%;
-            height: 80%;
-            top: 10%;
-            left: 10%;
-            animation: spinReverse 1.8s linear infinite;
-            border-top-color: rgba(154, 123, 90, 0.7);
-        }
-        
-        .loader:nth-child(3) {
-            width: 60%;
-            height: 60%;
-            top: 20%;
-            left: 20%;
-            animation: spin 2s linear infinite;
-            border-top-color: rgba(154, 123, 90, 0.4);
-        }
-        
-        .preloader-text {
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            color: var(--accent);
-            text-transform: uppercase;
-            margin-top: 1.5rem;
-            opacity: 0.8;
-            animation: pulseText 2s infinite alternate;
-        }
-        
+
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-        
-        @keyframes spinReverse {
-            to { transform: rotate(-360deg); }
-        }
-        
-        @keyframes pulseText {
-            to { opacity: 0.4; }
-        }
-        
-        /* Header Elegante */
+
+        /* Header Estilizado */
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            background-color: rgba(255, 255, 255, 0.96);
-            box-shadow: 0 2px 30px rgba(0,0,0,0.08);
-            z-index: 1000;
-            padding: 1rem 3rem;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transform: translateY(0);
-            transition: all 0.6s var(--transition-base);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            z-index: 999;
         }
-        
-        header.hide {
-            transform: translateY(-100%);
-        }
-        
-        header.scrolled {
-            padding: 0.8rem 3rem;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
-        }
-        
-        .logo-container {
+
+        .brand {
             display: flex;
             align-items: center;
-            gap: 15px;
-            cursor: pointer;
+            gap: 1rem;
         }
-        
-        .logo-img {
-            height: 42px;
-            width: auto;
-            transition: all 0.6s var(--transition-base);
-            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.1));
+
+        .logo {
+            height: 45px;
+            transition: var(--transition);
         }
-        
-        .logo-img:hover {
-            transform: rotate(-5deg) scale(1.1);
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.15));
-        }
-        
-        .logo-text {
-            font-size: 1.6rem;
-            font-weight: 300;
-            letter-spacing: 0.4rem;
-            color: var(--primary);
-            transition: all 0.6s var(--transition-base);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .logo-text::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background-color: var(--accent);
-            transition: width 0.6s var(--transition-base);
-        }
-        
-        .logo-container:hover .logo-text::after {
-            width: 100%;
-        }
-        
-        .logo-container:hover .logo-text {
-            letter-spacing: 0.5rem;
-            color: var(--accent);
-        }
-        
-        /* Navegación Premium */
-        nav ul {
+
+        .nav-links {
             display: flex;
+            gap: 2rem;
             list-style: none;
         }
-        
-        nav ul li {
-            margin-left: 2.5rem;
-            position: relative;
-        }
-        
-        nav ul li a {
+
+        .nav-links a {
+            color: var(--text-color);
             text-decoration: none;
-            color: var(--text);
             font-weight: 300;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            transition: all 0.6s var(--transition-base);
             position: relative;
             padding: 0.5rem 0;
         }
-        
-        nav ul li a::before,
-        nav ul li a::after {
+
+        .nav-links a::after {
             content: '';
             position: absolute;
+            bottom: 0;
+            left: 0;
             width: 0;
             height: 1px;
-            background-color: var(--accent);
-            transition: all 0.6s var(--transition-base);
+            background: var(--accent-color);
+            transition: var(--transition);
         }
-        
-        nav ul li a::before {
-            top: 0;
-            left: 0;
-        }
-        
-        nav ul li a::after {
-            bottom: 0;
-            right: 0;
-        }
-        
-        nav ul li a:hover {
-            color: var(--accent);
-        }
-        
-        nav ul li a:hover::before,
-        nav ul li a:hover::after {
+
+        .nav-links a:hover::after {
             width: 100%;
         }
-        
-        /* Hero Section con Efecto Parallax */
+
+        /* Hero Section Impactante */
         .hero {
             height: 100vh;
             display: flex;
@@ -244,724 +126,134 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 0 2rem;
-            margin-top: 0;
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(135deg, rgba(248,245,242,1) 0%, rgba(255,255,255,1) 100%);
+            padding: 2rem;
+            background: linear-gradient(rgba(248, 245, 242, 0.9), rgba(248, 245, 242, 0.9)),
+                        url('assets/hero-bg.jpg') center/cover;
         }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://images.unsplash.com/photo-1605106702734-205df224ecce?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
-            opacity: 0.03;
-            z-index: -2;
-        }
-        
-        .hero::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(ellipse at center, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
-            z-index: -1;
-        }
-        
+
         .hero-content {
             max-width: 800px;
-            opacity: 0;
-            transform: translateY(40px);
-            animation: fadeInUp 1.2s var(--transition-base) 0.8s forwards;
+            animation: fadeIn 1s ease-out;
         }
-        
-        .hero-logo {
-            max-width: 220px;
-            margin-bottom: 2.5rem;
-            opacity: 0;
-            transform: scale(0.9) rotate(-5deg);
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
-            animation: logoAppear 1s var(--transition-base) 0.3s forwards;
-            transition: all 0.8s var(--transition-base);
-            border-radius: 50%;
-            padding: 15px;
-            background-color: rgba(255,255,255,0.8);
-        }
-        
-        .hero-logo:hover {
-            transform: scale(1.05) rotate(0deg);
-            filter: drop-shadow(0 15px 30px rgba(0,0,0,0.15));
-        }
-        
-        @keyframes logoAppear {
-            to {
-                opacity: 1;
-                transform: scale(1) rotate(0deg);
-            }
-        }
-        
+
         .hero h1 {
             font-size: 3.5rem;
             font-weight: 300;
             margin-bottom: 1.5rem;
-            letter-spacing: 0.5rem;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            color: var(--primary);
-            line-height: 1.2;
+            letter-spacing: 0.3rem;
         }
-        
+
         .hero p {
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto 3rem;
-            color: var(--light-text);
-            font-weight: 300;
-            letter-spacing: 1px;
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 3rem;
         }
-        
-        .scroll-down {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--text);
-            font-size: 1.8rem;
-            cursor: pointer;
-            opacity: 0;
-            animation: fadeIn 1s ease-out 1.8s forwards;
-            transition: all 0.6s var(--transition-base);
-        }
-        
-        .scroll-down:hover {
-            color: var(--accent);
-            transform: translateX(-50%) translateY(5px);
-        }
-        
-        .scroll-down::after {
-            content: 'Desplazar';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.7rem;
-            letter-spacing: 1px;
-            margin-top: 10px;
-            opacity: 0;
-            transition: all 0.6s var(--transition-base);
-        }
-        
-        .scroll-down:hover::after {
-            opacity: 1;
-            margin-top: 15px;
-        }
-        
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-        
-        /* Secciones del Catálogo */
-        section {
+
+        /* Secciones de Productos */
+        .product-section {
             padding: 6rem 2rem;
-            position: relative;
         }
-        
+
         .section-title {
             text-align: center;
-            padding: 0 0 4rem;
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             font-weight: 300;
-            letter-spacing: 0.4rem;
+            margin-bottom: 4rem;
             position: relative;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s var(--transition-base);
         }
-        
-        .section-title.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
+
         .section-title::after {
             content: '';
             position: absolute;
-            bottom: 3rem;
+            bottom: -1.5rem;
             left: 50%;
             transform: translateX(-50%);
             width: 60px;
-            height: 1px;
-            background-color: var(--accent);
-            transition: all 0.8s var(--transition-base);
+            height: 2px;
+            background: var(--accent-color);
         }
-        
-        .section-title:hover::after {
-            width: 100px;
-            background-color: var(--primary);
-        }
-        
-        /* Grid de Productos */
+
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2.5rem;
-            max-width: 1300px;
+            max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .product-card {
             background: white;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
-            transition: all 0.8s var(--transition-base);
-            opacity: 0;
-            transform: translateY(40px) rotate(1deg);
-            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: var(--transition);
         }
-        
-        .product-card:nth-child(odd) {
-            transform: translateY(40px) rotate(-1deg);
-        }
-        
-        .product-card.visible {
-            opacity: 1;
-            transform: translateY(0) rotate(0deg);
-        }
-        
+
         .product-card:hover {
-            transform: translateY(-10px) scale(1.02) !important;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
         }
-        
+
         .product-image {
-            height: 280px;
-            background-color: #f9f9f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .product-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 60%);
-            z-index: 1;
-        }
-        
-        .product-image img {
-            max-width: 75%;
-            max-height: 75%;
-            object-fit: contain;
-            transition: all 0.8s var(--transition-base);
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
-            position: relative;
-            z-index: 2;
-        }
-        
-        .product-card:hover .product-image img {
-            transform: scale(1.08) rotate(1deg);
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
-        }
-        
-        .product-info {
-            padding: 2rem;
-            position: relative;
-        }
-        
-        .product-info::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 2rem;
-            width: calc(100% - 4rem);
-            height: 1px;
-            background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
-            opacity: 0.3;
-        }
-        
-        .product-name {
-            font-size: 1.3rem;
-            font-weight: 400;
-            margin-bottom: 0.8rem;
-            letter-spacing: 1px;
-            transition: all 0.6s var(--transition-base);
-            position: relative;
-            display: inline-block;
-        }
-        
-        .product-name::after {
-            content: '';
-            position: absolute;
-            bottom: -3px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background-color: var(--accent);
-            transition: width 0.6s var(--transition-base);
-        }
-        
-        .product-card:hover .product-name::after {
-            width: 100%;
-        }
-        
-        .product-description {
-            color: var(--light-text);
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-            transition: color 0.6s var(--transition-base);
-        }
-        
-        .product-card:hover .product-description {
-            color: var(--text);
-        }
-        
-        .product-price {
-            font-size: 1.2rem;
-            font-weight: 500;
-            color: var(--accent);
-            transition: all 0.6s var(--transition-base);
-            display: flex;
-            align-items: center;
-        }
-        
-        .product-price::before {
-            content: '';
-            display: inline-block;
-            width: 15px;
-            height: 1px;
-            background-color: var(--accent);
-            margin-right: 10px;
-            transition: all 0.6s var(--transition-base);
-        }
-        
-        .product-card:hover .product-price {
-            letter-spacing: 1px;
-        }
-        
-        .product-card:hover .product-price::before {
-            width: 25px;
-        }
-        
-        /* Sección de Colores */
-        .colors-section {
-            background-color: white;
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s var(--transition-base);
-        }
-        
-        .colors-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .colors-grid {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 3rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .color-item {
-            text-align: center;
-            transform: scale(0.95);
-            transition: all 0.8s var(--transition-base);
-        }
-        
-        .color-item:hover {
-            transform: scale(1.05);
-        }
-        
-        .color-circle {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            margin-bottom: 1rem;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            transition: all 0.8s var(--transition-base);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
-        
-        .color-circle::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%);
-            opacity: 0;
-            transition: opacity 0.8s var(--transition-base);
-        }
-        
-        .color-item:hover .color-circle {
-            transform: scale(1.1);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-        }
-        
-        .color-item:hover .color-circle::after {
-            opacity: 1;
-        }
-        
-        .color-name {
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            transition: all 0.6s var(--transition-base);
-        }
-        
-        .color-item:hover .color-name {
-            letter-spacing: 1.5px;
-            color: var(--accent);
-        }
-        
-        /* Sección de Aromas */
-        .aromas-section {
-            background-color: var(--secondary);
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s var(--transition-base);
-        }
-        
-        .aromas-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .aromas-grid {
+            height: 300px;
+            background: #f9f9f9;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 1.8rem;
-            max-width: 900px;
-            margin: 0 auto;
+            place-items: center;
+            padding: 2rem;
         }
-        
-        .aroma-item {
-            background: white;
+
+        .product-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: var(--transition);
+        }
+
+        .product-info {
             padding: 1.5rem;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: all 0.8s var(--transition-base);
-            transform: translateY(0);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .aroma-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background-color: var(--accent);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.6s var(--transition-base);
-        }
-        
-        .aroma-item:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-        }
-        
-        .aroma-item:hover::before {
-            transform: scaleX(1);
-        }
-        
-        /* Sección de Contacto */
-        .contact-section {
-            background-color: white;
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s var(--transition-base);
-        }
-        
-        .contact-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .contact-info {
-            max-width: 600px;
-            margin: 0 auto;
             text-align: center;
         }
-        
-        .contact-info p {
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .contact-info p::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background-color: var(--accent);
-            transition: width 0.6s var(--transition-base);
-        }
-        
-        .contact-info p:hover::after {
-            width: 100%;
-        }
-        
-        .contact-info i {
-            margin-right: 10px;
-            color: var(--accent);
-            transition: transform 0.6s var(--transition-base);
-        }
-        
-        .contact-info p:hover i {
-            transform: rotate(15deg);
-        }
-        
-        .social-links {
-            margin: 3rem 0;
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-        }
-        
-        .social-links a {
-            color: var(--text);
-            font-size: 1.6rem;
-            transition: all 0.6s var(--transition-base);
-            display: flex;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-        
-        .social-links a::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 1px solid var(--accent);
-            transform: scale(0.8);
-            opacity: 0;
-            transition: all 0.6s var(--transition-base);
-        }
-        
-        .social-links a:hover {
-            color: var(--accent);
-            transform: translateY(-5px);
-        }
-        
-        .social-links a:hover::before {
-            transform: scale(1.1);
-            opacity: 1;
-        }
-        
-        .payment-info {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(0,0,0,0.05);
-        }
-        
-        .payment-info h3 {
-            font-size: 1.1rem;
-            font-weight: 400;
-            letter-spacing: 1px;
-            margin-bottom: 1.5rem;
-            color: var(--accent);
-        }
-        
-        /* Footer Elegante */
-        footer {
-            background-color: var(--primary);
-            color: white;
-            text-align: center;
-            padding: 4rem 2rem;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            opacity: 0;
-            transition: opacity 1.2s var(--transition-base);
-            position: relative;
-        }
-        
-        footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 1px;
-            background-color: var(--accent);
-        }
-        
-        footer.visible {
-            opacity: 1;
-        }
-        
-        .footer-logo {
-            max-width: 120px;
-            margin-bottom: 2rem;
-            opacity: 0.8;
-            transition: all 0.6s var(--transition-base);
-        }
-        
-        .footer-logo:hover {
-            opacity: 1;
-            transform: rotate(-5deg) scale(1.05);
-        }
-        
-        .copyright {
-            margin-top: 2rem;
-            font-size: 0.8rem;
-            opacity: 0.6;
-            letter-spacing: 2px;
-        }
-        
-        /* Efecto de Partículas (Opcional) */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-        
-        .particle {
-            position: absolute;
-            background-color: rgba(154, 123, 90, 0.1);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .hero h1 {
-                font-size: 2.8rem;
-            }
-            
-            .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            }
-        }
-        
+
+        /* Estilos Responsivos */
         @media (max-width: 768px) {
             header {
-                padding: 1rem 2rem;
+                padding: 1rem;
             }
-            
-            .logo-text {
-                font-size: 1.4rem;
-                letter-spacing: 0.3rem;
+
+            .nav-links {
+                gap: 1.5rem;
             }
-            
-            nav ul li {
-                margin-left: 1.5rem;
-            }
-            
+
             .hero h1 {
-                font-size: 2.2rem;
-                letter-spacing: 0.3rem;
+                font-size: 2.5rem;
             }
-            
-            .hero p {
-                font-size: 1rem;
-            }
-            
+
             .section-title {
-                font-size: 1.8rem;
-            }
-            
-            .color-circle {
-                width: 70px;
-                height: 70px;
+                font-size: 2rem;
             }
         }
-        
-        @media (max-width: 576px) {
-            header {
-                padding: 0.8rem 1.5rem;
+
+        @media (max-width: 480px) {
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
             }
-            
-            .logo-text {
-                display: none;
-            }
-            
-            nav ul li a {
-                font-size: 0.8rem;
-            }
-            
+
             .hero h1 {
-                font-size: 1.8rem;
-                letter-spacing: 0.2rem;
+                font-size: 2rem;
             }
-            
-            .hero-logo {
-                max-width: 160px;
-            }
-            
+
             .products-grid {
                 grid-template-columns: 1fr;
-            }
-            
-            .section-title {
-                font-size: 1.5rem;
-                letter-spacing: 0.2rem;
-            }
-            
-            .colors-grid {
-                gap: 2rem;
-            }
-            
-            .color-circle {
-                width: 60px;
-                height: 60px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Preloader Animado -->
+    <!-- Preloader -->
     <div class="preloader">
-        <div class="loader-container">
-            <div class="loader"></div>
-            <div class="loader"></div>
-            <div class="loader"></div>
-        </div>
-        <div class="preloader-text">Cargando Catálogo</div>
+        <div class="loader"></div>
     </div>
-
     <!-- Header con Logo -->
     <header>
         <div class="logo-container" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
@@ -1341,23 +633,36 @@
 
 <!-- Efecto de Partículas -->
 <div class="particles" id="particles-js"></div>
-
-<script>
-    // Preloader
-    window.addEventListener('load', function() {
-        const preloader = document.querySelector('.preloader');
-        setTimeout(() => {
-            preloader.classList.add('fade-out');
+   <script>
+        // Manejo del Preloader
+        window.addEventListener('load', () => {
             setTimeout(() => {
-                preloader.style.display = 'none';
-                createParticles();
-            }, 800);
-        }, 1500);
-        
-        // Año actual en el footer
-        document.getElementById('year').textContent = new Date().getFullYear();
-    });
-    
+                document.querySelector('.preloader').classList.add('hidden');
+            }, 1000);
+        });
+
+        // Scroll Suave
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Detección de Imágenes Rotas
+        document.querySelectorAll('img').forEach(img => {
+            img.onerror = () => {
+                img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100"><rect width="100" height="100" fill="%23f8f5f2"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="10" fill="%239a7b5a">Imagen no disponible</text></svg>';
+            }
+        });
+    </script>
+<script>
     // Scroll animations
     document.addEventListener("DOMContentLoaded", () => {
         const animateOnScroll = (elements, className) => {
@@ -1502,14 +807,6 @@
         
         card.addEventListener('mouseleave', () => {
             card.style.transform = 'rotateX(0) rotateY(0) scale(1)';
-        });
-    });
-
-    // Manejo de imágenes faltantes
-    document.querySelectorAll('img').forEach(img => {
-        img.addEventListener('error', function() {
-            this.src = 'https://via.placeholder.com/300x300?text=LLUM+Design';
-            this.alt = 'Imagen no disponible';
         });
     });
 </script></body> </html>
