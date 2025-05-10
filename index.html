@@ -389,6 +389,19 @@
             opacity: 1;
             transform: translateY(0);
         }
+        /* Estilo para la imagen de portada */
+        .portada-principal {
+    width: 100%;
+    max-width: 800px; /* Controla el ancho máximo */
+    margin: 0 auto; /* Centra horizontalmente */
+    display: block;
+    position: relative;
+    border-radius: 12px; /* Bordes redondeados */
+    overflow: hidden;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    opacity: 0.9; /* Opacidad controlada (0.8-0.95 suele verse bien) */
+    transition: all 0.5s ease; /* Efecto hover suave */
+}
         
         .section-title::after {
             content: '';
@@ -976,7 +989,7 @@
     <!-- Hero Section con Logo -->
     <section >
         <div class="hero">
-            <img src="LUM (1).JPG" alt="LLUM Logo" class="logo-img" >
+            <img src="LUM (1).JPG" alt="LLUM Logo" class="portada-principal" >
             <h1>LLUM DESIGN STUDIO</h1>
             <p>Arte y diseño en piezas de cemento y velas de cera de soya con aromas naturales</p>
         </div>
